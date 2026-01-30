@@ -1,5 +1,5 @@
 <?php
-include 'db_connect.php';
+include 'admin/db_connect.php';
 
 /* Fetch active breaking news */
 $q = mysqli_query($conn, "
