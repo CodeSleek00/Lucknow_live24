@@ -1,112 +1,37 @@
-body{
-    margin:0;
-    font-family:Arial, sans-serif;
-    background:#f2f2f2;
-}
-
-/* HEADER */
-.top-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:12px 30px;
-    background:#111;
-    color:white;
-}
-
-.logo{
-    font-size:22px;
-    font-weight:bold;
-}
-
-.logo span{
-    color:red;
-}
-
-nav a{
-    color:white;
-    margin-left:15px;
-    text-decoration:none;
-}
-
-/* BREAKING BAR */
-.breaking-bar{
-    display:flex;
-    background:#c40000;
-    color:white;
-    padding:10px;
-    overflow:hidden;
-}
-
-.label{
-    background:black;
-    padding:5px 12px;
-    margin-right:10px;
-    font-weight:bold;
-}
-
-.ticker{
-    white-space:nowrap;
-    overflow:hidden;
-    width:100%;
-}
-
-#breakingText{
-    display:inline-block;
-    padding-left:100%;
-    animation: scroll 15s linear infinite;
-}
-
-@keyframes scroll{
-    0%{ transform:translateX(0); }
-    100%{ transform:translateX(-100%); }
-}
-
-/* CONTENT */
-.container{
-    display:flex;
+.breaking-section{
+    background:#fff;
     padding:20px;
-    gap:20px;
+    margin:20px;
+    border-radius:6px;
 }
 
-.left{
-    flex:3;
+.breaking-title{
+    font-size:22px;
+    border-left:5px solid red;
+    padding-left:10px;
+    margin-bottom:15px;
 }
 
-.right{
+.breaking-list{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.breaking-item{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding-bottom:8px;
+    border-bottom:1px solid #eee;
+}
+
+.breaking-item .text{
+    font-size:16px;
     flex:1;
-    background:white;
-    padding:15px;
-    border-radius:5px;
 }
 
-.news-card{
-    background:white;
-    margin-bottom:20px;
-    padding:15px;
-    border-radius:5px;
-}
-
-.news-card img{
-    width:100%;
-    border-radius:5px;
-}
-
-/* FOOTER */
-footer{
-    background:#111;
-    color:white;
-    text-align:center;
-    padding:15px;
-    margin-top:20px;
-}
-
-/* MOBILE */
-@media(max-width:768px){
-    .container{
-        flex-direction:column;
-    }
-    nav{
-        display:none;
-    }
+.breaking-item .time{
+    font-size:12px;
+    color:#777;
 }
