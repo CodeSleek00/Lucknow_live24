@@ -1,5 +1,5 @@
 <?php
-include 'db_connect.php';
+include 'admin/db_connect.php';
 
 $q = mysqli_query($conn, "
     SELECT news_text, created_at 
