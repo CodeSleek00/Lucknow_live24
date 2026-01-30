@@ -1,0 +1,66 @@
+body{
+    margin:0;
+    font-family:Arial;
+    background:#f4f6f8;
+}
+
+.sidebar{
+    width:220px;
+    height:100vh;
+    background:#111;
+    position:fixed;
+    padding:20px;
+}
+
+.sidebar h2{
+    color:white;
+}
+
+.sidebar a{
+    display:block;
+    color:white;
+    text-decoration:none;
+    padding:10px 0;
+}
+
+.main{
+    margin-left:240px;
+    padding:20px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    width:250px;
+    border-radius:5px;
+}
+
+table{
+    width:100%;
+    background:white;
+    border-collapse:collapse;
+}
+
+th,td{
+    padding:10px;
+    border:1px solid #ccc;
+}
+
+.login-body{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+.login-box{
+    background:white;
+    padding:30px;
+    width:300px;
+}
+
+input,button{
+    width:100%;
+    padding:10px;
+    margin:5px 0;
+}
