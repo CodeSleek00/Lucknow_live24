@@ -21,7 +21,7 @@ $q = mysqli_query($conn, "
                 <span class="dot">🔴</span>
                 <span class="text"><?= $row['news_text'] ?></span>
                 <span class="time">
-                    <?= date("d M Y, h:i A", strtotime($row['created_at'])) ?>
+                    <?= date("d M Y", strtotime($row['created_at'])) ?>
                 </span>
             </div>
         <?php 
