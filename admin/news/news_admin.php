@@ -25,6 +25,7 @@ $result = mysqli_query($conn, "
 <tr>
     <th>ID</th>
     <th>Headline</th>
+    <th>Category</th>
     <th>Author</th>
     <th>Media</th>
     <th>Status</th>
@@ -36,6 +37,7 @@ $result = mysqli_query($conn, "
 <tr>
     <td><?php echo (int)$row['id']; ?></td>
     <td><?php echo htmlspecialchars($row['title']); ?></td>
+    <td><?php echo htmlspecialchars((string)$row['category']); ?></td>
     <td><?php echo htmlspecialchars($row['author_name']); ?></td>
     <td><?php echo (int)$row['media_count']; ?></td>
     <td><?php echo ((int)$row['status'] === 1) ? 'Published' : 'Draft'; ?></td>

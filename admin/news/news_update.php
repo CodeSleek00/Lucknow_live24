@@ -17,12 +17,13 @@ if($id <= 0){
 }
 
 $title = trim($_POST['title'] ?? '');
+$category = trim($_POST['category'] ?? 'General');
 $authorName = trim($_POST['author_name'] ?? '');
 $summary = trim($_POST['summary'] ?? '');
 $content = trim($_POST['content'] ?? '');
 $status = isset($_POST['status']) && (int)$_POST['status'] === 0 ? 0 : 1;
 
-if($title === '' || $authorName === '' || $summary === '' || $content === ''){
+if($title === '' || $category === '' || $authorName === '' || $summary === '' || $content === ''){
     header("Location: news_edit.php?id=$id");
     exit();
 }
@@ -31,13 +32,14 @@ $slug = unique_slug($conn, $title, $id);
 
 $escTitle = mysqli_real_escape_string($conn, $title);
 $escSlug = mysqli_real_escape_string($conn, $slug);
+$escCategory = mysqli_real_escape_string($conn, $category);
 $escSummary = mysqli_real_escape_string($conn, $summary);
 $escContent = mysqli_real_escape_string($conn, $content);
 $escAuthor = mysqli_real_escape_string($conn, $authorName);
 
 mysqli_query($conn, "
     UPDATE news_posts
-    SET title='$escTitle', slug='$escSlug', summary='$escSummary', content='$escContent', author_name='$escAuthor', status=$status
+    SET title='$escTitle', slug='$escSlug', summary='$escSummary', content='$escContent', author_name='$escAuthor', category='$escCategory', status=$status
     WHERE id=$id
 ");
 

@@ -11,12 +11,13 @@ if(!isset($_SESSION['admin'])){
 ensure_news_schema($conn);
 
 $title = trim($_POST['title'] ?? '');
+$category = trim($_POST['category'] ?? 'General');
 $authorName = trim($_POST['author_name'] ?? '');
 $summary = trim($_POST['summary'] ?? '');
 $content = trim($_POST['content'] ?? '');
 $status = isset($_POST['status']) && (int)$_POST['status'] === 0 ? 0 : 1;
 
-if($title === '' || $authorName === '' || $summary === '' || $content === ''){
+if($title === '' || $category === '' || $authorName === '' || $summary === '' || $content === ''){
     header("Location: news_add.php");
     exit();
 }
@@ -25,13 +26,14 @@ $slug = unique_slug($conn, $title);
 
 $escTitle = mysqli_real_escape_string($conn, $title);
 $escSlug = mysqli_real_escape_string($conn, $slug);
+$escCategory = mysqli_real_escape_string($conn, $category);
 $escSummary = mysqli_real_escape_string($conn, $summary);
 $escContent = mysqli_real_escape_string($conn, $content);
 $escAuthor = mysqli_real_escape_string($conn, $authorName);
 
 $insertPost = mysqli_query($conn, "
-    INSERT INTO news_posts(title, slug, summary, content, author_name, status)
-    VALUES('$escTitle', '$escSlug', '$escSummary', '$escContent', '$escAuthor', $status)
+    INSERT INTO news_posts(title, slug, summary, content, author_name, category, status)
+    VALUES('$escTitle', '$escSlug', '$escSummary', '$escContent', '$escAuthor', '$escCategory', $status)
 ");
 
 if(!$insertPost){

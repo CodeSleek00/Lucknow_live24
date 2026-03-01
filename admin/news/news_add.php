@@ -12,6 +12,18 @@ ensure_news_schema($conn);
     <label>Headline</label>
     <input type="text" name="title" placeholder="Enter headline" required>
 
+    <label>Category</label>
+    <select name="category" required>
+        <option value="General">General</option>
+        <option value="Politics">Politics</option>
+        <option value="City">City</option>
+        <option value="Crime">Crime</option>
+        <option value="Business">Business</option>
+        <option value="Sports">Sports</option>
+        <option value="Education">Education</option>
+        <option value="Health">Health</option>
+    </select>
+
     <label>Author Name</label>
     <input type="text" name="author_name" placeholder="Reporter name" required>
 

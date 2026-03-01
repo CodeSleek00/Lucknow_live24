@@ -15,6 +15,11 @@ function ensure_news_schema(mysqli $conn): void {
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
     ");
 
+    $categoryColumn = mysqli_query($conn, "SHOW COLUMNS FROM news_posts LIKE 'category'");
+    if($categoryColumn && mysqli_num_rows($categoryColumn) === 0){
+        mysqli_query($conn, "ALTER TABLE news_posts ADD COLUMN category VARCHAR(80) NOT NULL DEFAULT 'General' AFTER author_name");
+    }
+
     mysqli_query($conn, "
         CREATE TABLE IF NOT EXISTS news_media (
             id INT AUTO_INCREMENT PRIMARY KEY,

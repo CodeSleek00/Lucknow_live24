@@ -29,6 +29,18 @@ $mediaResult = mysqli_query($conn, "SELECT * FROM news_media WHERE post_id=$id O
     <label>Headline</label>
     <input type="text" name="title" value="<?php echo htmlspecialchars($post['title']); ?>" required>
 
+    <label>Category</label>
+    <select name="category" required>
+        <?php
+        $categories = ['General','Politics','City','Crime','Business','Sports','Education','Health'];
+        foreach($categories as $cat):
+        ?>
+            <option value="<?php echo htmlspecialchars($cat); ?>" <?php echo (($post['category'] ?? 'General') === $cat) ? 'selected' : ''; ?>>
+                <?php echo htmlspecialchars($cat); ?>
+            </option>
+        <?php endforeach; ?>
+    </select>
+
     <label>Author Name</label>
     <input type="text" name="author_name" value="<?php echo htmlspecialchars($post['author_name']); ?>" required>
 
