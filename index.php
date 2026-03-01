@@ -400,17 +400,7 @@ a{
 
     <div class="hero-overlay"></div>
 
-    <div class="hero-content">
-        <div class="hero-kicker">Live Local Coverage</div>
-        <h1 class="hero-title"><?php echo isset($news[0]) ? htmlspecialchars($news[0]) : 'Fast and reliable breaking updates from your city.'; ?></h1>
-        <p class="hero-sub">Lucknow Live24 par aapko milte hain instant alerts, field updates, aur verified headlines ek clean reading experience ke saath.</p>
-        <ul class="hero-tags">
-            <li>Lucknow News</li>
-            <li>Traffic Updates</li>
-            <li>Politics</li>
-            <li>Public Alerts</li>
-        </ul>
-    </div>
+  
 
     <?php if(count($heroImages) > 1): ?>
         <div class="hero-dots" aria-label="Hero slider controls">
