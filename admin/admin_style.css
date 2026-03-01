@@ -64,3 +64,15 @@ input,button{
     padding:10px;
     margin:5px 0;
 }
+
+textarea,select{
+    width:100%;
+    padding:10px;
+    margin:5px 0 12px;
+}
+
+label{
+    display:block;
+    font-weight:600;
+    margin-top:8px;
+}

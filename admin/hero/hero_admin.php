@@ -22,6 +22,7 @@ if(!isset($_SESSION['admin'])){
     <a href="../admin_dashboard.php">Dashboard</a>
     <a href="../add_breaking.php">Add Breaking</a>
     <a href="../manage_breaking.php">Manage Breaking</a>
+    <a href="../news/news_admin.php">Manage News Posts</a>
     <a href="hero_admin.php">Manage Hero Images</a>
     <a href="../admin_logout.php">Logout</a>
 </div>
