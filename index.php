@@ -28,7 +28,7 @@
 
     /* subtle container */
     .page {
-      max-width: 1300px;
+    
       margin: 0 auto;
       background-color: white;
       box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
