@@ -24,7 +24,7 @@ while($row = mysqli_fetch_assoc($q)){
 <style>
 body{
     margin:0;
-    background:#000;
+   
     font-family:Arial, sans-serif;
 }
 
