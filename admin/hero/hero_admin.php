@@ -29,8 +29,14 @@ if(!isset($_SESSION['admin'])){
 <div class="main">
     <h1>Hero Image Dashboard</h1>
 
+    <?php if(isset($_GET['msg'])): ?>
+        <p class="notice <?php echo (isset($_GET['status']) && $_GET['status'] === 'success') ? 'notice-success' : 'notice-error'; ?>">
+            <?php echo htmlspecialchars($_GET['msg']); ?>
+        </p>
+    <?php endif; ?>
+
     <form action="upload.php" method="POST" enctype="multipart/form-data">
-        <input type="file" name="image" accept="image/*" required>
+        <input type="file" name="image" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" required>
         <button type="submit">Upload Image</button>
     </form>
 

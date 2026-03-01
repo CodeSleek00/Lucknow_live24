@@ -7,6 +7,25 @@
     max-width:420px;
 }
 
+.notice{
+    padding:10px 12px;
+    border-radius:6px;
+    margin:8px 0 14px;
+    font-weight:600;
+}
+
+.notice-success{
+    background:#e7f7ec;
+    color:#166534;
+    border:1px solid #86efac;
+}
+
+.notice-error{
+    background:#fee2e2;
+    color:#991b1b;
+    border:1px solid #fca5a5;
+}
+
 .main input[type="file"]{
     width:100%;
     padding:10px;
