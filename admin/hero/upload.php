@@ -3,16 +3,16 @@ session_start();
 include "../db_connect.php";
 
 if(!isset($_SESSION['admin'])){
-    header("Location: login.php");
+    header("Location: ../admin_login.php");
     exit();
 }
 
-$image=$_FILES['image']['name'];
-$tmp=$_FILES['image']['tmp_name'];
+$image = basename($_FILES['image']['name']);
+$tmp = $_FILES['image']['tmp_name'];
 
-move_uploaded_file($tmp,"uploads/".$image);
+if($image !== "" && move_uploaded_file($tmp, "uploads/" . $image)){
+    mysqli_query($conn, "INSERT INTO hero_images(image) VALUES('$image')");
+}
 
-mysqli_query($conn,"INSERT INTO hero_images(image) VALUES('$image')");
-
-header("Location: admin_dashboard.php");
+header("Location: hero_admin.php");
 ?>

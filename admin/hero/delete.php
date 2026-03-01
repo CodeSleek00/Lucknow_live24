@@ -3,17 +3,26 @@ session_start();
 include "../db_connect.php";
 
 if(!isset($_SESSION['admin'])){
-    header("Location: login.php");
+    header("Location: ../admin_login.php");
     exit();
 }
 
-$id=$_GET['id'];
+$id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+if($id <= 0){
+    header("Location: hero_admin.php");
+    exit();
+}
 
-$data=mysqli_fetch_assoc(mysqli_query($conn,"SELECT * FROM hero_images WHERE id=$id"));
+$data = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM hero_images WHERE id=$id"));
 
-unlink("../uploads/".$data['image']);
+if($data && !empty($data['image'])){
+    $file = "uploads/" . $data['image'];
+    if(file_exists($file)){
+        unlink($file);
+    }
+}
 
-mysqli_query($conn,"DELETE FROM hero_images WHERE id=$id");
+mysqli_query($conn, "DELETE FROM hero_images WHERE id=$id");
 
-header("Location: admin_dashboard.php");
+header("Location: hero_admin.php");
 ?>

@@ -84,7 +84,8 @@ body{
 }
 .hero{
     position:relative;
-    height:100vh;
+    height:calc(100vh - 80px);
+    min-height:420px;
     overflow:hidden;
 }
 .slide{
@@ -101,6 +102,31 @@ body{
 }
 .active{
     opacity:1;
+}
+
+@media (max-width: 1024px){
+    .hero{
+        height:62vh;
+        min-height:360px;
+    }
+}
+
+@media (max-width: 768px){
+    .breaking-wrapper{
+        height:62px;
+    }
+
+    .hero{
+        height:50vh;
+        min-height:280px;
+    }
+}
+
+@media (max-width: 480px){
+    .hero{
+        height:42vh;
+        min-height:220px;
+    }
 }
 </style>
 </head>
@@ -131,19 +157,22 @@ $first=true;
 while($row=mysqli_fetch_assoc($result)){
 ?>
 <div class="slide <?php if($first){echo 'active'; $first=false;} ?>">
-    <img src="uploads/<?php echo $row['image']; ?>">
+    <img src="admin/hero/uploads/<?php echo htmlspecialchars($row['image']); ?>" alt="Hero Image">
 </div>
 <?php } ?>
 </div>
 
 <script>
-let slides=document.querySelectorAll('.slide');
-let i=0;
-setInterval(()=>{
-    slides[i].classList.remove('active');
-    i=(i+1)%slides.length;
-    slides[i].classList.add('active');
-},3000);
+const slides = document.querySelectorAll('.slide');
+let i = 0;
+
+if (slides.length > 1) {
+    setInterval(() => {
+        slides[i].classList.remove('active');
+        i = (i + 1) % slides.length;
+        slides[i].classList.add('active');
+    }, 3000);
+}
 </script>
 
 

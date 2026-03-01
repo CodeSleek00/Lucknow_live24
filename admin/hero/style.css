@@ -1,54 +1,67 @@
-body{
-    font-family:Arial;
-    text-align:center;
-    margin:0;
-    padding:20px;
+.main h1,
+.main h2{
+    text-align:left;
 }
-.login-body{
-    background:linear-gradient(135deg,#141e30,#243b55);
-    color:white;
+
+.main form{
+    max-width:420px;
 }
-.login-box{
-    background:white;
-    padding:30px;
-    width:300px;
-    margin:auto;
-    border-radius:10px;
-    color:black;
-}
-input{
+
+.main input[type="file"]{
     width:100%;
     padding:10px;
     margin:10px 0;
 }
-button{
+
+.main button{
     padding:10px 20px;
-    background:red;
-    color:white;
+    background:#c40000;
+    color:#fff;
     border:none;
     cursor:pointer;
 }
-button:hover{
-    background:darkred;
+
+.main button:hover{
+    background:#9e0000;
 }
+
 .image-grid{
-    display:flex;
-    flex-wrap:wrap;
-    justify-content:center;
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(220px, 1fr));
+    gap:14px;
 }
+
 .img-box{
-    margin:10px;
+    background:#fff;
+    border:1px solid #ddd;
+    border-radius:8px;
+    padding:10px;
 }
+
 .img-box img{
-    width:200px;
-    height:120px;
+    width:100%;
+    height:140px;
     object-fit:cover;
+    border-radius:6px;
     display:block;
 }
-a{
+
+.img-box a{
+    margin-top:8px;
+    display:inline-block;
     text-decoration:none;
-    color:red;
+    color:#c40000;
+    font-weight:600;
 }
-.error{
-    color:red;
+
+@media (max-width: 768px){
+    .sidebar{
+        width:100%;
+        height:auto;
+        position:static;
+    }
+
+    .main{
+        margin-left:0;
+    }
 }
