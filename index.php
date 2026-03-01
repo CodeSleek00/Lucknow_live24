@@ -486,16 +486,7 @@
           <!-- static caption overlay (can be dynamic later, but for design we show first slide info) -->
           <div class="hero-caption">
             <span class="caption-tag">टॉप स्टोरी</span>
-            <h1 class="caption-title">
-              <?php 
-                $firstHeadline = $news[0] ?? 'लखनऊ की बड़ी खबरें, सीधा आपके सामने';
-                echo htmlspecialchars(substr($firstHeadline, 0, 60)) . (strlen($firstHeadline)>60?'…':'');
-              ?>
-            </h1>
-            <div class="caption-meta">
-              <span>⚡ ४५ मिनट पहले</span>
-              <span>📌 लखनऊ / उत्तर प्रदेश</span>
-            </div>
+            
           </div>
         </div>
 
