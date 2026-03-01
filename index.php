@@ -82,6 +82,26 @@ body{
     .breaking-label{ font-size:16px; padding:0 15px; }
     .breaking-text{ font-size:16px; }
 }
+.hero{
+    position:relative;
+    height:100vh;
+    overflow:hidden;
+}
+.slide{
+    position:absolute;
+    width:100%;
+    height:100%;
+    opacity:0;
+    transition:1s;
+}
+.slide img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+.active{
+    opacity:1;
+}
 </style>
 </head>
 <body>
@@ -103,6 +123,29 @@ body{
         </div>
     </div>
 </div>
+
+<div class="hero">
+<?php
+$result = mysqli_query($conn,"SELECT * FROM hero_images ORDER BY id DESC");
+$first=true;
+while($row=mysqli_fetch_assoc($result)){
+?>
+<div class="slide <?php if($first){echo 'active'; $first=false;} ?>">
+    <img src="uploads/<?php echo $row['image']; ?>">
+</div>
+<?php } ?>
+</div>
+
+<script>
+let slides=document.querySelectorAll('.slide');
+let i=0;
+setInterval(()=>{
+    slides[i].classList.remove('active');
+    i=(i+1)%slides.length;
+    slides[i].classList.add('active');
+},3000);
+</script>
+
 
 </body>
 </html>
