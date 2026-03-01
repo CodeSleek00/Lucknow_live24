@@ -10,7 +10,7 @@ if(!isset($_SESSION['admin'])){
 $image=$_FILES['image']['name'];
 $tmp=$_FILES['image']['tmp_name'];
 
-move_uploaded_file($tmp,"../uploads/".$image);
+move_uploaded_file($tmp,"uploads/".$image);
 
 mysqli_query($conn,"INSERT INTO hero_images(image) VALUES('$image')");
 
