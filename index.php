@@ -5,7 +5,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-$query = "SELECT * FROM news ORDER BY id DESC LIMIT 5";
+$query = "SELECT * FROM news ORDER BY id DESC LIMIT 9";
 $result = mysqli_query($conn, $query);
 
 $news_items = [];
