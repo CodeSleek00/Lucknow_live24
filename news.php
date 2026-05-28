@@ -20,7 +20,24 @@ if(!$data){
 // Decode JSON
 $images = json_decode($data['images'] ?? '[]', true);
 $videos = json_decode($data['videos'] ?? '[]', true);
+$paragraphs = json_decode($data['paragraphs'] ?? '[]', true);
 
+$imageIndex = 0;
+$videoIndex = 0;
+
+function getImage(&$images, &$imageIndex){
+    if(isset($images[$imageIndex])){
+        return $images[$imageIndex++];
+    }
+    return null;
+}
+
+function getVideo(&$videos, &$videoIndex){
+    if(isset($videos[$videoIndex])){
+        return $videos[$videoIndex++];
+    }
+    return null;
+}
 ?>
 
 <!DOCTYPE html>
@@ -46,7 +63,7 @@ body{
 
 .container{
     width:90%;
-    max-width:1000px;
+    max-width:900px;
     margin:40px auto;
     background:white;
     padding:30px;
@@ -62,8 +79,8 @@ body{
 
 /* TITLE */
 h1{
-    font-size:42px;
-    margin-bottom:15px;
+    font-size:40px;
+    margin-bottom:10px;
 }
 
 /* DATE */
@@ -73,46 +90,37 @@ h1{
 }
 
 /* DESCRIPTION */
-p{
+.description{
     font-size:18px;
     line-height:1.8;
+    margin-bottom:25px;
     color:#333;
 }
 
-/* GALLERY */
-.gallery{
-    display:grid;
-    grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));
-    gap:10px;
-    margin-top:30px;
+/* PARAGRAPH */
+.paragraph{
+    font-size:17px;
+    line-height:1.8;
+    margin-bottom:25px;
+    color:#222;
 }
 
-.gallery img{
+/* MEDIA */
+.media-img{
     width:100%;
-    border-radius:10px;
-}
-
-/* VIDEOS */
-.video-box{
-    margin-top:30px;
+    border-radius:12px;
+    margin:15px 0 30px;
 }
 
 video{
     width:100%;
     border-radius:12px;
-    margin-bottom:15px;
+    margin:15px 0 30px;
 }
 
 /* MOBILE */
 @media(max-width:768px){
-
-    h1{
-        font-size:28px;
-    }
-
-    p{
-        font-size:16px;
-    }
+    h1{font-size:26px;}
 }
 
 </style>
@@ -135,30 +143,40 @@ Published: <?php echo date("d M Y", strtotime($data['created_at'])); ?>
 </div>
 
 <!-- DESCRIPTION -->
-<p><?php echo nl2br($data['description']); ?></p>
+<div class="description">
+<?php echo nl2br($data['description']); ?>
+</div>
 
-<!-- GALLERY IMAGES -->
-<?php if(!empty($images)){ ?>
-    <h3 style="margin-top:30px;">Gallery</h3>
+<!-- =========================
+     DYNAMIC CONTENT FLOW
+========================= -->
+<?php if(!empty($paragraphs)){ ?>
 
-    <div class="gallery">
-        <?php foreach($images as $img){ ?>
-            <img src="admin/uploads/images/<?php echo $img; ?>">
+    <?php foreach($paragraphs as $index => $para){ ?>
+
+        <!-- PARAGRAPH -->
+        <div class="paragraph">
+            <?php echo nl2br($para); ?>
+        </div>
+
+        <!-- IMAGE after paragraph -->
+        <?php 
+        $img = getImage($images, $imageIndex);
+        if($img){ ?>
+            <img class="media-img" src="admin/uploads/images/<?php echo $img; ?>">
         <?php } ?>
-    </div>
-<?php } ?>
 
-<!-- VIDEOS -->
-<?php if(!empty($videos)){ ?>
-    <h3 style="margin-top:30px;">Videos</h3>
-
-    <div class="video-box">
-        <?php foreach($videos as $vid){ ?>
+        <!-- VIDEO after paragraph -->
+        <?php 
+        $vid = getVideo($videos, $videoIndex);
+        if($vid){ ?>
             <video controls>
-                <source src="uploads/videos/<?php echo $vid; ?>" type="video/mp4">
+                <source src="admin/uploads/videos/<?php echo $vid; ?>" type="video/mp4">
             </video>
         <?php } ?>
-    </div>
+
+    <?php } ?>
+
 <?php } ?>
 
 </div>
