@@ -8,31 +8,33 @@ if(isset($_POST['upload'])) {
     $video_name = $_FILES['video']['name'];
     $tmp_name = $_FILES['video']['tmp_name'];
 
+    // Create folder if not exists
+    if (!is_dir("uploads/videos")) {
+        mkdir("uploads/videos", 0777, true);
+    }
+
+    // File extension check
     $ext = strtolower(pathinfo($video_name, PATHINFO_EXTENSION));
-    $allowed = ['mp4','webm','ogg'];
+    $allowed = ['mp4', 'webm', 'ogg'];
 
-    if(!in_array($ext, $allowed)){
-        die("Only video files allowed");
+    if (!in_array($ext, $allowed)) {
+        echo "<script>alert('Only video files allowed');</script>";
+        exit;
     }
 
-    // 🔥 ABSOLUTE PATH FIX (MAIN FIX)
-    $upload_dir = $_SERVER['DOCUMENT_ROOT'] . "/uploads/videos/";
-
-    if(!is_dir($upload_dir)){
-        mkdir($upload_dir, 0777, true);
-    }
-
+    // Unique file name
     $newName = time() . "_" . rand(1000,9999) . "." . $ext;
+    $folder = "uploads/videos/" . $newName;
 
-    $fullPath = $upload_dir . $newName;   // server path
-    $dbPath = "uploads/videos/" . $newName; // store in DB
+    if(move_uploaded_file($tmp_name, $folder)) {
 
-    if(move_uploaded_file($tmp_name, $fullPath)) {
+        $query = "INSERT INTO reels (title, video) VALUES ('$title', '$folder')";
 
-        $query = "INSERT INTO reels (title, video) VALUES ('$title', '$dbPath')";
-        mysqli_query($conn, $query);
-
-        echo "<script>alert('Reel uploaded successfully');</script>";
+        if(mysqli_query($conn, $query)) {
+            echo "<script>alert('Reel uploaded successfully');</script>";
+        } else {
+            echo "<script>alert('Database error');</script>";
+        }
 
     } else {
         echo "<script>alert('Upload failed');</script>";
