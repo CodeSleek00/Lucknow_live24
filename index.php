@@ -67,7 +67,9 @@ body{
 /* CARD */
 .news-card{
     background:white;
-    border-radius:18px;
+    border-top-left-radius:18px;
+    border-top-right-radius:18px;
+    border: 0.3ps #e50914 solid;
     overflow:hidden;
     text-decoration:none;
     color:#000;
