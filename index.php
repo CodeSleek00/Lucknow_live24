@@ -6,6 +6,12 @@ error_reporting(E_ALL);
 $query = "SELECT * FROM news ORDER BY id DESC LIMIT 5";
 $result = mysqli_query($conn, $query);
 
+// Store results in array
+$news_items = [];
+while($row = mysqli_fetch_assoc($result)) {
+    $news_items[] = $row;
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -35,9 +41,18 @@ body{
     margin:40px auto;
 }
 
-.news-grid{
+/* First row - 3 columns */
+.news-grid-first{
     display:grid;
     grid-template-columns:repeat(3,1fr);
+    gap:20px;
+    margin-bottom:20px;
+}
+
+/* Second row - 2 columns (50% 50%) */
+.news-grid-second{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
     gap:20px;
 }
 
@@ -71,67 +86,77 @@ body{
     line-height:1.4;
 }
 
-.big-card{
-    grid-column:span 2;
-}
-
-.big-card .news-image{
+/* First row styles */
+.first-row-card .news-image{
     height:390px;
 }
 
-.big-card .news-title{
+.first-row-card .news-title{
     font-size:34px;
 }
 
+/* Second row styles - equal 50% width automatically */
+.second-row-card .news-image{
+    height:240px;
+}
+
+.second-row-card .news-title{
+    font-size:24px;
+}
+
 @media(max-width:992px){
-
-    .news-grid{
-        grid-template-columns:1fr 1fr;
+    .news-grid-first{
+        grid-template-columns:repeat(2,1fr);
     }
-
-    .big-card{
-        grid-column:span 2;
+    
+    .news-grid-second{
+        grid-template-columns:repeat(2,1fr);
     }
 }
 
 @media(max-width:768px){
-
-    .news-grid{
+    .news-grid-first{
         display:flex;
         overflow-x:auto;
         gap:15px;
         padding-bottom:10px;
         scroll-snap-type:x mandatory;
     }
-
-    .news-grid::-webkit-scrollbar{
+    
+    .news-grid-second{
+        display:flex;
+        overflow-x:auto;
+        gap:15px;
+        padding-bottom:10px;
+        scroll-snap-type:x mandatory;
+    }
+    
+    .news-grid-first::-webkit-scrollbar,
+    .news-grid-second::-webkit-scrollbar{
         height:5px;
     }
-
-    .news-grid::-webkit-scrollbar-thumb{
+    
+    .news-grid-first::-webkit-scrollbar-thumb,
+    .news-grid-second::-webkit-scrollbar-thumb{
         background:#ccc;
         border-radius:20px;
     }
-
+    
     .news-card{
-        min-width:300px;
+        min-width:280px;
         flex-shrink:0;
         scroll-snap-align:start;
     }
-
-    .big-card{
-        min-width:340px;
-    }
-
-    .big-card .news-image{
+    
+    .first-row-card .news-image{
         height:250px;
     }
-
+    
     .news-title{
         font-size:18px;
     }
-
-    .big-card .news-title{
+    
+    .first-row-card .news-title{
         font-size:22px;
     }
 }
@@ -142,35 +167,28 @@ body{
 
 <div class="news-wrapper">
 
-<div class="news-grid">
-
-<?php
-$count = 0;
-
-while($row = mysqli_fetch_assoc($result)){
-
-$count++;
-
-$class = ($count > 3) ? 'big-card' : '';
-
-?>
-
-<a href="news.php?slug=<?php echo $row['slug']; ?>" class="news-card <?php echo $class; ?>">
-
-<img src="admin/uploads/<?php echo $row['image']; ?>" class="news-image">
-
-<div class="news-content">
-
-<h2 class="news-title">
-<?php echo $row['title']; ?>
-</h2>
-
+<!-- First Row: 3 Items -->
+<div class="news-grid-first">
+    <?php for($i = 0; $i < 3 && $i < count($news_items); $i++): ?>
+        <a href="news.php?slug=<?php echo $news_items[$i]['slug']; ?>" class="news-card first-row-card">
+            <img src="admin/uploads/<?php echo $news_items[$i]['image']; ?>" class="news-image">
+            <div class="news-content">
+                <h2 class="news-title"><?php echo $news_items[$i]['title']; ?></h2>
+            </div>
+        </a>
+    <?php endfor; ?>
 </div>
 
-</a>
-
-<?php } ?>
-
+<!-- Second Row: 2 Items (50% 50% width) -->
+<div class="news-grid-second">
+    <?php for($i = 3; $i < 5 && $i < count($news_items); $i++): ?>
+        <a href="news.php?slug=<?php echo $news_items[$i]['slug']; ?>" class="news-card second-row-card">
+            <img src="admin/uploads/<?php echo $news_items[$i]['image']; ?>" class="news-image">
+            <div class="news-content">
+                <h2 class="news-title"><?php echo $news_items[$i]['title']; ?></h2>
+            </div>
+        </a>
+    <?php endfor; ?>
 </div>
 
 </div>
