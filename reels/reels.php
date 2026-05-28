@@ -110,7 +110,7 @@ video{
     </div>
 
     <video 
-        src="admin/<?php echo htmlspecialchars($row['video']); ?>" 
+        src="../admin/<?php echo htmlspecialchars($row['video']); ?>" 
         muted 
         loop 
         playsinline>
