@@ -73,7 +73,7 @@ video{
 
     <!-- 🔥 FIXED PATH -->
     <video 
-        src="admin/uploads/videos/<?php echo htmlspecialchars($row['video']); ?>" 
+        src="admin/<?php echo htmlspecialchars($row['video']); ?>" 
         muted 
         loop 
         playsinline>
