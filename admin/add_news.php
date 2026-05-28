@@ -13,7 +13,14 @@ if(isset($_POST['submit'])){
     $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $title)));
 
     /* =========================
-       MAIN IMAGE (SINGLE IMAGE)
+       PARAGRAPHS (NEW FEATURE)
+    ========================== */
+    $paragraphs = isset($_POST['paragraphs']) ? $_POST['paragraphs'] : [];
+    $paragraphs = array_filter($paragraphs); // remove empty
+    $paragraphsJson = json_encode(array_values($paragraphs));
+
+    /* =========================
+       MAIN IMAGE
     ========================== */
     $imageName = "";
 
@@ -25,7 +32,7 @@ if(isset($_POST['submit'])){
     }
 
     /* =========================
-       MULTIPLE IMAGES (GALLERY)
+       GALLERY IMAGES
     ========================== */
     $galleryFiles = [];
 
@@ -40,7 +47,7 @@ if(isset($_POST['submit'])){
     }
 
     /* =========================
-       MULTIPLE VIDEOS
+       VIDEOS
     ========================== */
     $videoFiles = [];
 
@@ -58,12 +65,12 @@ if(isset($_POST['submit'])){
     $videosJson = json_encode($videoFiles);
 
     /* =========================
-       INSERT QUERY
+       INSERT QUERY (UPDATED)
     ========================== */
     $query = "INSERT INTO news
-    (title, slug, description, image, images, videos)
+    (title, slug, description, paragraphs, image, images, videos)
     VALUES
-    ('$title','$slug','$description','$imageName','$galleryJson','$videosJson')";
+    ('$title','$slug','$description','$paragraphsJson','$imageName','$galleryJson','$videosJson')";
 
     mysqli_query($conn, $query);
 
@@ -92,7 +99,7 @@ body{
 }
 
 .container{
-    max-width:750px;
+    max-width:800px;
     margin:auto;
     background:#fff;
     padding:30px;
@@ -100,14 +107,10 @@ body{
     box-shadow:0 5px 20px rgba(0,0,0,0.1);
 }
 
-h1{
-    margin-bottom:25px;
-}
-
 input, textarea{
     width:100%;
     padding:14px;
-    margin-bottom:15px;
+    margin-bottom:12px;
     border:1px solid #ddd;
     border-radius:10px;
     font-size:16px;
@@ -115,30 +118,45 @@ input, textarea{
 
 button{
     background:#e60023;
-    color:white;
+    color:#fff;
     border:none;
-    padding:14px 25px;
-    border-radius:10px;
+    padding:12px 18px;
+    border-radius:8px;
     cursor:pointer;
-    font-size:16px;
 }
 
 button:hover{
     background:#c4001d;
 }
 
+.add-btn{
+    background:#333;
+    margin-bottom:15px;
+}
+
+.paragraph-box{
+    position:relative;
+    margin-bottom:10px;
+}
+
+.remove-btn{
+    position:absolute;
+    right:10px;
+    top:10px;
+    background:red;
+    color:#fff;
+    border:none;
+    border-radius:5px;
+    padding:5px 8px;
+    cursor:pointer;
+}
+
 .success{
     background:#d4edda;
     color:#155724;
-    padding:12px;
-    margin-bottom:20px;
+    padding:10px;
+    margin-bottom:15px;
     border-radius:8px;
-}
-
-label{
-    font-weight:bold;
-    display:block;
-    margin:10px 0 6px;
 }
 </style>
 </head>
@@ -150,31 +168,62 @@ label{
 <div class="success">News Added Successfully</div>
 <?php } ?>
 
-<h1>Add News</h1>
+<h2>Add News</h2>
 
 <form method="POST" enctype="multipart/form-data">
 
 <input type="text" name="title" placeholder="News Title" required>
+<textarea name="description" rows="4" placeholder="Short Description"></textarea>
 
-<textarea name="description" rows="6" placeholder="News Description"></textarea>
+<hr style="margin:15px 0;">
 
-<!-- SINGLE IMAGE -->
+<h3>Paragraphs</h3>
+
+<div id="paragraph-wrapper">
+
+    <div class="paragraph-box">
+        <textarea name="paragraphs[]" rows="4" placeholder="Paragraph 1"></textarea>
+    </div>
+
+</div>
+
+<button type="button" class="add-btn" onclick="addParagraph()">+ Add Paragraph</button>
+
+<hr>
+
 <label>Main Image</label>
 <input type="file" name="image" accept="image/*" required>
 
-<!-- GALLERY -->
-<label>Gallery Images (Multiple)</label>
+<label>Gallery Images</label>
 <input type="file" name="images[]" multiple accept="image/*">
 
-<!-- VIDEOS -->
-<label>Videos (Multiple)</label>
+<label>Videos</label>
 <input type="file" name="videos[]" multiple accept="video/*">
 
+<br><br>
 <button type="submit" name="submit">Publish News</button>
 
 </form>
 
 </div>
+
+<script>
+let count = 1;
+
+function addParagraph(){
+    count++;
+
+    const div = document.createElement("div");
+    div.classList.add("paragraph-box");
+
+    div.innerHTML = `
+        <textarea name="paragraphs[]" rows="4" placeholder="Paragraph ${count}"></textarea>
+        <button type="button" class="remove-btn" onclick="this.parentElement.remove()">X</button>
+    `;
+
+    document.getElementById("paragraph-wrapper").appendChild(div);
+}
+</script>
 
 </body>
 </html>
