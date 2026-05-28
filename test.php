@@ -12,19 +12,16 @@ $result = mysqli_query($conn, $query);
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Reels Section</title>
 
-<!-- Google Font -->
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
 
-/* MAIN SECTION */
 .news-reel{
     font-family: 'Poppins', sans-serif;
     background: linear-gradient(135deg, #ff2d55, #ff4d4d);
     padding: 20px;
 }
 
-/* HEADER */
 .news-reel .header{
     display:flex;
     justify-content:space-between;
@@ -35,7 +32,6 @@ $result = mysqli_query($conn, $query);
 .news-reel .header h2{
     color:white;
     font-size:20px;
-    font-weight:600;
 }
 
 .news-reel .btn-more{
@@ -44,23 +40,15 @@ $result = mysqli_query($conn, $query);
     padding:8px 14px;
     border-radius:8px;
     text-decoration:none;
-    font-weight:500;
     font-size:13px;
-    transition:0.3s;
 }
 
-.news-reel .btn-more:hover{
-    background:#ffe6ea;
-}
-
-/* GRID */
 .news-reel .grid{
     display:grid;
     grid-template-columns:repeat(5, 1fr);
     gap:12px;
 }
 
-/* REEL CARD */
 .news-reel .reel-box{
     background:white;
     border-radius:16px;
@@ -68,11 +56,7 @@ $result = mysqli_query($conn, $query);
     position:relative;
     aspect-ratio: 9 / 16;
     box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-    transition: transform 0.3s ease;
-}
-
-.news-reel .reel-box:hover{
-    transform: scale(1.03);
+    cursor:pointer;
 }
 
 /* VIDEO */
@@ -92,34 +76,30 @@ $result = mysqli_query($conn, $query);
     font-size:18px;
     color:white;
     background:rgba(0,0,0,0.5);
-    width:40px;
-    height:40px;
+    width:45px;
+    height:45px;
     display:flex;
     align-items:center;
     justify-content:center;
     border-radius:50%;
+    pointer-events:none;
+    transition:0.3s;
 }
 
-/* TABLET */
+/* hide icon when playing */
+.news-reel .reel-box.playing::after{
+    opacity:0;
+}
+
 @media(max-width:1024px){
     .news-reel .grid{
         grid-template-columns:repeat(3, 1fr);
     }
 }
 
-/* MOBILE */
 @media(max-width:600px){
-    .news-reel{
-        padding:15px;
-    }
-
     .news-reel .grid{
         grid-template-columns:repeat(2, 1fr);
-        gap:10px;
-    }
-
-    .news-reel .header h2{
-        font-size:18px;
     }
 }
 
@@ -140,7 +120,7 @@ $result = mysqli_query($conn, $query);
         <?php while($row = mysqli_fetch_assoc($result)) { ?>
 
         <div class="reel-box">
-            <video src="admin/<?php echo htmlspecialchars($row['video']); ?>" muted></video>
+            <video src="admin/<?php echo htmlspecialchars($row['video']); ?>" muted playsinline></video>
         </div>
 
         <?php } ?>
@@ -148,6 +128,37 @@ $result = mysqli_query($conn, $query);
     </div>
 
 </section>
+
+<script>
+// CLICK TO PLAY / PAUSE (Instagram style)
+
+const reels = document.querySelectorAll('.news-reel .reel-box');
+
+reels.forEach(box => {
+    const video = box.querySelector('video');
+
+    box.addEventListener('click', () => {
+
+        // pause all other videos
+        reels.forEach(b => {
+            const v = b.querySelector('video');
+            if (v !== video) {
+                v.pause();
+                b.classList.remove('playing');
+            }
+        });
+
+        // toggle current
+        if (video.paused) {
+            video.play();
+            box.classList.add('playing');
+        } else {
+            video.pause();
+            box.classList.remove('playing');
+        }
+    });
+});
+</script>
 
 </body>
 </html>
