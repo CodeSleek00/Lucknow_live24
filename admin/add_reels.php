@@ -8,14 +8,34 @@ if(isset($_POST['upload'])) {
     $video_name = $_FILES['video']['name'];
     $tmp_name = $_FILES['video']['tmp_name'];
 
-    $folder = "assets/reels_videos/" . time() . "_" . $video_name;
+    // Create folder if not exists
+    if (!is_dir("uploads/videos")) {
+        mkdir("uploads/videos", 0777, true);
+    }
+
+    // File extension check
+    $ext = strtolower(pathinfo($video_name, PATHINFO_EXTENSION));
+    $allowed = ['mp4', 'webm', 'ogg'];
+
+    if (!in_array($ext, $allowed)) {
+        echo "<script>alert('Only video files allowed');</script>";
+        exit;
+    }
+
+    // Unique file name
+    $newName = time() . "_" . rand(1000,9999) . "." . $ext;
+    $folder = "uploads/videos/" . $newName;
 
     if(move_uploaded_file($tmp_name, $folder)) {
 
         $query = "INSERT INTO reels (title, video) VALUES ('$title', '$folder')";
-        mysqli_query($conn, $query);
 
-        echo "<script>alert('Reel uploaded successfully');</script>";
+        if(mysqli_query($conn, $query)) {
+            echo "<script>alert('Reel uploaded successfully');</script>";
+        } else {
+            echo "<script>alert('Database error');</script>";
+        }
+
     } else {
         echo "<script>alert('Upload failed');</script>";
     }
