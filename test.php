@@ -96,10 +96,14 @@ $result = mysqli_query($conn, $query);
         grid-template-columns:repeat(3, 1fr);
     }
 }
-
 @media(max-width:600px){
     .news-reel .grid{
         grid-template-columns:repeat(2, 1fr);
+    }
+
+    /* Force only 4 visible items on mobile */
+    .news-reel .reel-box:nth-child(n+5){
+        display:none;
     }
 }
 
