@@ -25,7 +25,7 @@ $result = mysqli_query($conn, $query);
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>News Section</title>
-<link rel="stylesheet" href="style.css?v=1.1">
+<link rel="stylesheet" href="style.css?v=1.2">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <!-- Font Awesome -->
@@ -239,6 +239,46 @@ $result = mysqli_query($conn, $query);
     </div>
 
 </section>
+
+<div class="strip-wrapper">
+
+    <div class="strip-grid">
+
+        <?php
+        $total = count($news_items);
+        $perCol = 3;
+        $cols = ceil($total / $perCol);
+
+        for($col = 0; $col < $cols; $col++):
+        ?>
+        <div class="strip-column">
+
+            <?php for($row = 0; $row < 3; $row++):
+                $i = ($col * 3) + $row;
+                if($i >= $total) break;
+            ?>
+
+            <a href="news.php?slug=<?php echo $news_items[$i]['slug']; ?>" class="strip-card">
+
+                <div class="strip-img">
+                    <img src="admin/uploads/images/<?php echo $news_items[$i]['image']; ?>">
+                </div>
+
+                <div class="strip-content">
+                    <h3><?php echo $news_items[$i]['title']; ?></h3>
+                    <p><?php echo substr(strip_tags($news_items[$i]['description'] ?? ''),0,80).'...'; ?></p>
+                </div>
+
+            </a>
+
+            <?php endfor; ?>
+
+        </div>
+        <?php endfor; ?>
+
+    </div>
+
+</div>
 
 <script src="script.js?v=1.1"></script>
 

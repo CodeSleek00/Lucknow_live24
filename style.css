@@ -659,3 +659,78 @@ RESPONSIVE
     }
 }
 /* News Strip */
+.strip-wrapper{
+    padding:20px;
+    font-family:'Poppins', sans-serif;
+}
+
+.strip-grid{
+    display:flex;
+    gap:15px;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch;
+    scroll-behavior:smooth;
+}
+
+.strip-grid::-webkit-scrollbar{
+    display:none;
+}
+
+.strip-column{
+    flex:0 0 33.33%;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    scroll-snap-align:start;
+}
+
+.strip-card{
+    display:flex;
+    gap:10px;
+    background:#fff;
+    border-radius:14px;
+    overflow:hidden;
+    text-decoration:none;
+    box-shadow:0 4px 14px rgba(0,0,0,0.08);
+    transition:0.2s;
+}
+
+.strip-card:hover{
+    transform:translateY(-3px);
+}
+
+.strip-img{
+    width:40%;
+    aspect-ratio:16/9;
+    overflow:hidden;
+}
+
+.strip-img img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.strip-content{
+    padding:10px;
+    width:60%;
+}
+
+.strip-content h3{
+    font-size:13px;
+    margin:0;
+    color:#111;
+}
+
+.strip-content p{
+    font-size:11px;
+    color:#666;
+    margin-top:5px;
+}
+
+@media(max-width:768px){
+    .strip-column{
+        flex:0 0 85%;
+    }
+}
