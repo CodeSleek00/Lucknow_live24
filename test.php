@@ -18,7 +18,7 @@ $result = mysqli_query($conn, $query);
 
 .news-reel{
     font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #ff2d55, #ff4d4d);
+    background: linear-gradient(135deg, #770016, #1d0000);
     padding: 20px;
 }
 
