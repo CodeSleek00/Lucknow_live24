@@ -1,109 +1,110 @@
 <?php
 include 'database_connection/db.php';
 
-$query = "SELECT * FROM reels ORDER BY id DESC";
+$query = "SELECT * FROM reels ORDER BY id DESC LIMIT 10";
 $result = mysqli_query($conn, $query);
-
-if(!$result){
-    die(mysqli_error($conn));
-}
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Reels</title>
+<title>Reels Grid</title>
 
 <style>
 body{
     margin:0;
-    background:black;
     font-family:Arial;
+    background:#0f0f0f;
+    color:white;
 }
 
-.reels-container{
-    height:100vh;
-    overflow-y:scroll;
-    scroll-snap-type:y mandatory;
+/* header */
+.header{
+    padding:15px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
 }
 
-.reel{
-    height:100vh;
+.btn-more{
+    padding:10px 15px;
+    background:#ff2d55;
+    color:white;
+    border:none;
+    border-radius:8px;
+    text-decoration:none;
+}
+
+/* grid */
+.grid{
+    display:grid;
+    grid-template-columns:repeat(5, 1fr);
+    gap:5px;
+    padding:10px;
+}
+
+.reel-box{
     position:relative;
-    scroll-snap-align:start;
+    height:160px;
+    overflow:hidden;
+    border-radius:10px;
 }
 
-video{
+.reel-box video{
     width:100%;
     height:100%;
     object-fit:cover;
 }
 
-.overlay{
+/* overlay play icon */
+.reel-box::after{
+    content:"▶";
     position:absolute;
-    bottom:40px;
-    left:20px;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    font-size:20px;
     color:white;
-    font-size:18px;
-    font-weight:bold;
-    text-shadow:0 2px 10px black;
+    background:rgba(0,0,0,0.5);
+    padding:10px;
+    border-radius:50%;
 }
 
-.empty{
-    color:white;
-    text-align:center;
-    margin-top:50vh;
+/* responsive */
+@media(max-width:768px){
+    .grid{
+        grid-template-columns:repeat(3, 1fr);
+    }
 }
+
+@media(max-width:480px){
+    .grid{
+        grid-template-columns:repeat(2, 1fr);
+    }
+}
+
 </style>
-
 </head>
+
 <body>
 
-<div class="reels-container">
+<div class="header">
+    <h2>🔥 Reels</h2>
+    <a class="btn-more" href="reels.php">More Reels</a>
+</div>
 
-<?php if(mysqli_num_rows($result) == 0){ ?>
-    <div class="empty">No reels uploaded yet</div>
-<?php } ?>
+<div class="grid">
 
 <?php while($row = mysqli_fetch_assoc($result)) { ?>
 
-<div class="reel">
-
-    <!-- 🔥 FIXED PATH -->
-    <video 
-        src="admin/<?php echo htmlspecialchars($row['video']); ?>" 
-        muted 
-        loop 
-        playsinline>
-    </video>
-
-    <div class="overlay">
-        <?php echo htmlspecialchars($row['title']); ?>
-    </div>
-
+<div class="reel-box">
+    <video src="admin/<?php echo htmlspecialchars($row['video']); ?>"></video>
 </div>
 
 <?php } ?>
 
 </div>
-
-<script>
-const videos = document.querySelectorAll('video');
-
-const observer = new IntersectionObserver((entries)=>{
-    entries.forEach(entry=>{
-        if(entry.isIntersecting){
-            entry.target.play().catch(()=>{});
-        } else {
-            entry.target.pause();
-        }
-    });
-},{threshold:0.7});
-
-videos.forEach(v=>observer.observe(v));
-</script>
 
 </body>
 </html>
