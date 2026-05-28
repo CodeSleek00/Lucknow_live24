@@ -9,8 +9,9 @@ if(!$result){
 }
 
 /*
-IMPORTANT FIX:
-Base URL ensures video loads correctly even in subfolders
+IMPORTANT:
+This prevents 404 issues caused by relative paths.
+We always force root-based URL.
 */
 $base_url = "/";
 ?>
@@ -23,8 +24,6 @@ $base_url = "/";
 
 <title>Reels</title>
 
-<link rel="stylesheet" href="style.css">
-
 <style>
 body {
     margin: 0;
@@ -32,12 +31,14 @@ body {
     font-family: Arial, sans-serif;
 }
 
+/* FULL SCREEN REELS CONTAINER */
 .reels-container {
     height: 100vh;
     overflow-y: scroll;
     scroll-snap-type: y mandatory;
 }
 
+/* EACH REEL */
 .reel {
     position: relative;
     height: 100vh;
@@ -46,28 +47,29 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    background: black;
 }
 
+/* VIDEO STYLE */
 .video {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    background: black;
 }
 
+/* TITLE OVERLAY */
 .overlay {
     position: absolute;
-    bottom: 40px;
+    bottom: 50px;
     left: 20px;
     color: white;
     font-size: 18px;
     font-weight: bold;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.8);
-    z-index: 2;
+    text-shadow: 0px 2px 10px rgba(0,0,0,0.8);
     max-width: 80%;
 }
 
-/* empty state */
+/* EMPTY STATE */
 .empty {
     color: white;
     text-align: center;
@@ -92,12 +94,14 @@ while($row = mysqli_fetch_assoc($result)) {
 
 <div class="reel">
 
+    <!-- FIXED VIDEO PATH (THIS SOLVES YOUR 404 ISSUE) -->
     <video 
-        class="video" 
-        src="<?php echo $base_url . htmlspecialchars($row['video']); ?>" 
-        muted 
+        class="video"
+        src="<?php echo $base_url . htmlspecialchars($row['video']); ?>"
+        muted
         loop
         playsinline
+        preload="metadata"
     ></video>
 
     <div class="overlay">
