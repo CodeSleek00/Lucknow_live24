@@ -136,7 +136,7 @@ body{
                 <div class="strip-content">
                     <h3><?php echo $news_items[$i]['title']; ?></h3>
                     <p>
-                        <?php echo substr(strip_tags($news_items[$i]['description'] ?? ''), 0, 80) . '...'; ?>
+                        <?php echo substr(strip_tags($news_items[$i]['content'] ?? ''), 0, 80) . '...'; ?>
                     </p>
                 </div>
 
@@ -150,6 +150,37 @@ body{
     </div>
 
 </div>
+
+<script>
+const carousel = document.getElementById("newsCarousel");
+
+let scrollAmount = 0;
+let cardWidth = window.innerWidth * 0.85; // mobile column width approx
+let autoScrollSpeed = 1; // px per frame
+let isHovered = false;
+
+/* AUTO SCROLL */
+function autoScroll(){
+    if(!isHovered){
+        carousel.scrollLeft += autoScrollSpeed;
+
+        // reset loop
+        if(carousel.scrollLeft >= carousel.scrollWidth - carousel.clientWidth){
+            carousel.scrollLeft = 0;
+        }
+    }
+    requestAnimationFrame(autoScroll);
+}
+autoScroll();
+
+/* PAUSE ON TOUCH / MOUSE */
+carousel.addEventListener("mouseenter", () => isHovered = true);
+carousel.addEventListener("mouseleave", () => isHovered = false);
+carousel.addEventListener("touchstart", () => isHovered = true);
+carousel.addEventListener("touchend", () => {
+    setTimeout(()=> isHovered = false, 2000);
+});
+</script>
 
 </body>
 </html>
