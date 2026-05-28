@@ -22,6 +22,7 @@ $result = mysqli_query($conn, $query);
     padding: 20px;
 }
 
+/* HEADER */
 .news-reel .header{
     display:flex;
     justify-content:space-between;
@@ -32,6 +33,7 @@ $result = mysqli_query($conn, $query);
 .news-reel .header h2{
     color:white;
     font-size:20px;
+    font-weight:600;
 }
 
 .news-reel .btn-more{
@@ -41,14 +43,17 @@ $result = mysqli_query($conn, $query);
     border-radius:8px;
     text-decoration:none;
     font-size:13px;
+    font-weight:500;
 }
 
+/* GRID */
 .news-reel .grid{
     display:grid;
     grid-template-columns:repeat(5, 1fr);
     gap:12px;
 }
 
+/* REEL BOX */
 .news-reel .reel-box{
     background:white;
     border-radius:16px;
@@ -91,17 +96,19 @@ $result = mysqli_query($conn, $query);
     opacity:0;
 }
 
+/* TABLET */
 @media(max-width:1024px){
     .news-reel .grid{
         grid-template-columns:repeat(3, 1fr);
     }
 }
+
+/* MOBILE (STRICT 4 VIDEOS ONLY) */
 @media(max-width:600px){
     .news-reel .grid{
         grid-template-columns:repeat(2, 1fr);
     }
 
-    /* Force only 4 visible items on mobile */
     .news-reel .reel-box:nth-child(n+5){
         display:none;
     }
@@ -124,7 +131,7 @@ $result = mysqli_query($conn, $query);
         <?php while($row = mysqli_fetch_assoc($result)) { ?>
 
         <div class="reel-box">
-            <video src="admin/<?php echo htmlspecialchars($row['video']); ?>"  playsinline></video>
+            <video src="admin/<?php echo htmlspecialchars($row['video']); ?>" playsinline></video>
         </div>
 
         <?php } ?>
@@ -134,8 +141,6 @@ $result = mysqli_query($conn, $query);
 </section>
 
 <script>
-// CLICK TO PLAY / PAUSE (Instagram style)
-
 const reels = document.querySelectorAll('.news-reel .reel-box');
 
 reels.forEach(box => {
@@ -143,7 +148,7 @@ reels.forEach(box => {
 
     box.addEventListener('click', () => {
 
-        // pause all other videos
+        // stop other videos
         reels.forEach(b => {
             const v = b.querySelector('video');
             if (v !== video) {
@@ -152,7 +157,7 @@ reels.forEach(box => {
             }
         });
 
-        // toggle current
+        // toggle play/pause
         if (video.paused) {
             video.play();
             box.classList.add('playing');
@@ -160,6 +165,7 @@ reels.forEach(box => {
             video.pause();
             box.classList.remove('playing');
         }
+
     });
 });
 </script>
