@@ -2,22 +2,21 @@
 include 'database_connection/db.php';
 
 ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-/* ================= NEWS ================= */
-$news_query = "SELECT * FROM news ORDER BY id DESC LIMIT 30";
-$news_result = mysqli_query($conn, $news_query);
+$query = "SELECT * FROM news ORDER BY id DESC LIMIT 5";
+$result = mysqli_query($conn, $query);
 
 $news_items = [];
-while($row = mysqli_fetch_assoc($news_result)) {
+while($row = mysqli_fetch_assoc($result)) {
     $news_items[] = $row;
 }
+include 'database_connection/db.php';
 
-/* ================= REELS ================= */
-$reels_query = "SELECT * FROM reels ORDER BY id DESC LIMIT 5";
-$reels_result = mysqli_query($conn, $reels_query);
+$query = "SELECT * FROM reels ORDER BY id DESC LIMIT 5";
+$result = mysqli_query($conn, $query);
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -26,7 +25,7 @@ $reels_result = mysqli_query($conn, $reels_query);
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>News Section</title>
-<link rel="stylesheet" href="style.css?v=1.3">
+<link rel="stylesheet" href="style.css?v=1.1">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <!-- Font Awesome -->
