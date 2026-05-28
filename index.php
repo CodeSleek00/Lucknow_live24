@@ -16,6 +16,14 @@ include 'database_connection/db.php';
 
 $query = "SELECT * FROM reels ORDER BY id DESC LIMIT 5";
 $result = mysqli_query($conn, $query);
+
+$query = "SELECT * FROM news ORDER BY id DESC LIMIT 30";
+$result = mysqli_query($conn, $query);
+
+$news_items = [];
+while($row = mysqli_fetch_assoc($result)) {
+    $news_items[] = $row;
+}
 ?>
 
 <!DOCTYPE html>
@@ -239,6 +247,49 @@ $result = mysqli_query($conn, $query);
     </div>
 
 </section>
+
+<div class="news-strip-wrapper">
+
+    <div class="news-strip-grid" id="newsCarousel">
+
+        <?php
+        $total = count($news_items);
+        $perCol = 3;
+        $cols = ceil($total / $perCol);
+
+        for ($col = 0; $col < $cols; $col++):
+        ?>
+        <div class="news-column">
+
+            <?php for ($row = 0; $row < 3; $row++):
+                $i = ($col * 3) + $row;
+                if ($i >= $total) break;
+            ?>
+
+            <a href="news.php?slug=<?php echo $news_items[$i]['slug']; ?>" class="news-strip-card">
+
+                <div class="strip-img">
+                    <img src="admin/uploads/images/<?php echo $news_items[$i]['image']; ?>">
+                </div>
+
+                <div class="strip-content">
+                    <h3><?php echo $news_items[$i]['title']; ?></h3>
+                    <p>
+                        <?php echo substr(strip_tags($news_items[$i]['description'] ?? ''), 0, 80) . '...'; ?>
+                    </p>
+                </div>
+
+            </a>
+
+            <?php endfor; ?>
+
+        </div>
+        <?php endfor; ?>
+
+    </div>
+
+</div>
+
 <script src="script.js?v=1.1"></script>
 
 
