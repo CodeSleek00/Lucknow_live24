@@ -154,7 +154,7 @@ body{
             <a href="news.php?slug=<?php echo $news_items[$i]['slug']; ?>" class="news-card first-row-card">
 
                 <img 
-                    src="admin/uploads/images<?php echo $news_items[$i]['image']; ?>" 
+                    src="admin/uploads/images/<?php echo $news_items[$i]['image']; ?>" 
                     class="news-image"
                     alt="news image"
                 >
@@ -177,7 +177,7 @@ body{
             <a href="news.php?slug=<?php echo $news_items[$i]['slug']; ?>" class="news-card second-row-card">
 
                 <img 
-                    src="admin/uploads/images<?php echo $news_items[$i]['image']; ?>" 
+                    src="admin/uploads/images/<?php echo $news_items[$i]['image']; ?>" 
                     class="news-image"
                     alt="news image"
                 >
