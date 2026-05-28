@@ -157,7 +157,7 @@ $class = ($count > 3) ? 'big-card' : '';
 
 <a href="news.php?slug=<?php echo $row['slug']; ?>" class="news-card <?php echo $class; ?>">
 
-<img src="uploads/<?php echo $row['image']; ?>" class="news-image">
+<img src="admin/uploads/<?php echo $row['image']; ?>" class="news-image">
 
 <div class="news-content">
 
