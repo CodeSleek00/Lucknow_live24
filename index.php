@@ -240,49 +240,6 @@ $result = mysqli_query($conn, $query);
 
 </section>
 
-<div class="news-strip-wrapper">
-
-    <div class="news-strip-grid">
-
-        <?php
-        // IMPORTANT: uses existing $news_items from your page
-        $total = count($news_items);
-        $perCol = 3;
-        $cols = ceil($total / $perCol);
-
-        for ($col = 0; $col < $cols; $col++):
-        ?>
-        <div class="news-column">
-
-            <?php for ($row = 0; $row < 3; $row++):
-                $i = ($col * 3) + $row;
-                if ($i >= $total) break;
-            ?>
-
-            <a href="news.php?slug=<?php echo $news_items[$i]['slug']; ?>" class="news-strip-card">
-
-                <div class="strip-img">
-                    <img src="admin/uploads/images/<?php echo $news_items[$i]['image']; ?>">
-                </div>
-
-                <div class="strip-content">
-                    <h3><?php echo $news_items[$i]['title']; ?></h3>
-                    <p>
-                        <?php echo substr(strip_tags($news_items[$i]['description'] ?? ''), 0, 80) . '...'; ?>
-                    </p>
-                </div>
-
-            </a>
-
-            <?php endfor; ?>
-
-        </div>
-        <?php endfor; ?>
-
-    </div>
-
-</div>
-
 <script src="script.js?v=1.1"></script>
 
 
