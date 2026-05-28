@@ -17,36 +17,40 @@ while($row = mysqli_fetch_assoc($result)) {
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>News Carousel</title>
 
+<!-- Poppins Font -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
 <style>
 body{
     margin:0;
-    font-family: Arial;
-    background:#f4f4f4;
+    font-family: 'Poppins', sans-serif;
+    background:#f5f6fa;
 }
 
 /* WRAPPER */
-.news-strip-wrapper{
+.news-wrapper{
     padding:20px;
 }
 
-/* CAROUSEL CONTAINER */
-.news-strip-grid{
+/* CAROUSEL */
+.news-carousel{
     display:flex;
-    gap:15px;
+    gap:16px;
     overflow-x:auto;
     scroll-snap-type:x mandatory;
     -webkit-overflow-scrolling:touch;
     scroll-behavior:smooth;
+    padding-bottom:10px;
 }
 
-/* hide scrollbar */
-.news-strip-grid::-webkit-scrollbar{
+.news-carousel::-webkit-scrollbar{
     display:none;
 }
 
 /* COLUMN */
 .news-column{
-    flex:0 0 33.33%;
+    flex:0 0 32%;
+    min-width:320px;
     display:flex;
     flex-direction:column;
     gap:12px;
@@ -54,54 +58,76 @@ body{
 }
 
 /* CARD */
-.news-strip-card{
+.news-card{
     display:flex;
-    gap:10px;
+    flex-direction:column;
     background:#fff;
-    border-radius:12px;
-    text-decoration:none;
+    border-radius:14px;
     overflow:hidden;
-    box-shadow:0 2px 10px rgba(0,0,0,0.08);
-    transition:0.2s;
+    text-decoration:none;
+    box-shadow:0 6px 18px rgba(0,0,0,0.06);
+    transition:0.25s ease;
 }
 
-.news-strip-card:hover{
-    transform:scale(1.02);
+.news-card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 12px 28px rgba(0,0,0,0.12);
 }
 
-.strip-img{
-    width:40%;
-    min-width:90px;
+/* IMAGE - FIXED LANDSCAPE SIZE */
+.news-img{
+    width:100%;
+    aspect-ratio:16/9;   /* IMPORTANT: uniform landscape */
+    overflow:hidden;
 }
 
-.strip-img img{
+.news-img img{
     width:100%;
     height:100%;
     object-fit:cover;
     display:block;
 }
 
-.strip-content{
-    padding:8px;
-    width:60%;
+/* CONTENT */
+.news-content{
+    padding:12px;
 }
 
-.strip-content h3{
-    font-size:13px;
-    margin:0;
+.news-title{
+    font-size:14px;
+    font-weight:600;
     color:#111;
+    margin:0;
+    line-height:1.4;
 }
 
-.strip-content p{
-    font-size:11px;
+.news-desc{
+    font-size:12px;
     color:#666;
-    margin-top:5px;
+    margin-top:6px;
+    line-height:1.5;
 }
 
-/* MOBILE ADJUST */
+/* RESPONSIVE */
+@media(max-width:1024px){
+    .news-column{
+        flex:0 0 45%;
+    }
+}
+
 @media(max-width:768px){
     .news-column{
         flex:0 0 85%;
+    }
+
+    .news-title{
+        font-size:15px;
+    }
+}
+
+@media(max-width:480px){
+    .news-column{
+        flex:0 0 90%;
     }
 }
 </style>
@@ -109,9 +135,9 @@ body{
 
 <body>
 
-<div class="news-strip-wrapper">
+<div class="news-wrapper">
 
-    <div class="news-strip-grid" id="newsCarousel">
+    <div class="news-carousel">
 
         <?php
         $total = count($news_items);
@@ -127,16 +153,19 @@ body{
                 if ($i >= $total) break;
             ?>
 
-            <a href="news.php?slug=<?php echo $news_items[$i]['slug']; ?>" class="news-strip-card">
+            <a href="news.php?slug=<?php echo $news_items[$i]['slug']; ?>" class="news-card">
 
-                <div class="strip-img">
+                <div class="news-img">
                     <img src="admin/uploads/images/<?php echo $news_items[$i]['image']; ?>">
                 </div>
 
-                <div class="strip-content">
-                    <h3><?php echo $news_items[$i]['title']; ?></h3>
-                    <p>
-                        <?php echo substr(strip_tags($news_items[$i]['description'] ?? ''), 0, 80) . '...'; ?>
+                <div class="news-content">
+                    <h3 class="news-title">
+                        <?php echo $news_items[$i]['title']; ?>
+                    </h3>
+
+                    <p class="news-desc">
+                        <?php echo substr(strip_tags($news_items[$i]['description'] ?? ''), 0, 95) . '...'; ?>
                     </p>
                 </div>
 
@@ -150,37 +179,6 @@ body{
     </div>
 
 </div>
-
-<script>
-const carousel = document.getElementById("newsCarousel");
-
-let scrollAmount = 0;
-let cardWidth = window.innerWidth * 0.85; // mobile column width approx
-let autoScrollSpeed = 1; // px per frame
-let isHovered = false;
-
-/* AUTO SCROLL */
-function autoScroll(){
-    if(!isHovered){
-        carousel.scrollLeft += autoScrollSpeed;
-
-        // reset loop
-        if(carousel.scrollLeft >= carousel.scrollWidth - carousel.clientWidth){
-            carousel.scrollLeft = 0;
-        }
-    }
-    requestAnimationFrame(autoScroll);
-}
-autoScroll();
-
-/* PAUSE ON TOUCH / MOUSE */
-carousel.addEventListener("mouseenter", () => isHovered = true);
-carousel.addEventListener("mouseleave", () => isHovered = false);
-carousel.addEventListener("touchstart", () => isHovered = true);
-carousel.addEventListener("touchend", () => {
-    setTimeout(()=> isHovered = false, 2000);
-});
-</script>
 
 </body>
 </html>
