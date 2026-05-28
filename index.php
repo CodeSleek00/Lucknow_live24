@@ -12,6 +12,10 @@ $news_items = [];
 while($row = mysqli_fetch_assoc($result)) {
     $news_items[] = $row;
 }
+include 'database_connection/db.php';
+
+$query = "SELECT * FROM reels ORDER BY id DESC LIMIT 5";
+$result = mysqli_query($conn, $query);
 ?>
 
 <!DOCTYPE html>
@@ -214,6 +218,27 @@ while($row = mysqli_fetch_assoc($result)) {
     </div>
 
 </div>
+
+<section class="news-reel">
+
+    <div class="header">
+        <h2>News Reels</h2>
+        <a class="btn-more" href="reels.php">More</a>
+    </div>
+
+    <div class="grid">
+
+        <?php while($row = mysqli_fetch_assoc($result)) { ?>
+
+        <div class="reel-box">
+            <video src="admin/<?php echo htmlspecialchars($row['video']); ?>" playsinline></video>
+        </div>
+
+        <?php } ?>
+
+    </div>
+
+</section>
 <script src="script.js"></script>
 
 

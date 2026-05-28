@@ -34,3 +34,30 @@ if(slides.length > 0){
         showSlide(index);
     }, 8000); // 8 seconds
 }
+const reels = document.querySelectorAll('.news-reel .reel-box');
+
+reels.forEach(box => {
+    const video = box.querySelector('video');
+
+    box.addEventListener('click', () => {
+
+        // stop other videos
+        reels.forEach(b => {
+            const v = b.querySelector('video');
+            if (v !== video) {
+                v.pause();
+                b.classList.remove('playing');
+            }
+        });
+
+        // toggle play/pause
+        if (video.paused) {
+            video.play();
+            box.classList.add('playing');
+        } else {
+            video.pause();
+            box.classList.remove('playing');
+        }
+
+    });
+});
