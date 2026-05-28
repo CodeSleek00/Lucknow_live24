@@ -69,7 +69,7 @@ body{
     background:white;
     border-top-left-radius:18px;
     border-top-right-radius:18px;
-    border: 0.3px #e50914 solid;
+    border: 0.5px  solid #e50914;
     overflow:hidden;
     text-decoration:none;
     color:#000;
