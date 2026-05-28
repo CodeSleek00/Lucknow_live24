@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Lucknow Live</title>
+
+<!-- Google Font -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Inter',sans-serif;
+}
+
+body{
+    background:#f4f5f7;
+    color:#111;
+    overflow-x:hidden;
+}
+
+/*
+==================================
+MODERN NAVBAR
+==================================
+*/
+
+.navbar{
+    position:sticky;
+    top:0;
+    z-index:1000;
+    width:100%;
+    padding:14px 5%;
+    background:rgba(255,255,255,0.82);
+    backdrop-filter:blur(18px);
+    border-bottom:1px solid rgba(0,0,0,0.05);
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+/*
+==================================
+LOGO
+==================================
+*/
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.logo-box{
+    width:42px;
+    height:42px;
+    border-radius:14px;
+    background:linear-gradient(135deg,#ff2d2d,#c80000);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:white;
+    font-size:16px;
+    box-shadow:0 10px 20px rgba(255,0,0,0.18);
+}
+
+.logo h2{
+    font-size:22px;
+    font-weight:800;
+    letter-spacing:-0.5px;
+}
+
+.logo span{
+    color:#d40000;
+}
+
+/*
+==================================
+NAV LINKS
+==================================
+*/
+
+.nav-links{
+    display:flex;
+    align-items:center;
+    gap:28px;
+}
+
+.nav-links a{
+    text-decoration:none;
+    color:#555;
+    font-size:14px;
+    font-weight:600;
+    transition:0.25s ease;
+    position:relative;
+}
+
+.nav-links a::after{
+    content:'';
+    position:absolute;
+    left:0;
+    bottom:-8px;
+    width:0%;
+    height:2px;
+    background:#d40000;
+    border-radius:20px;
+    transition:0.3s ease;
+}
+
+.nav-links a:hover{
+    color:#111;
+}
+
+.nav-links a:hover::after{
+    width:100%;
+}
+
+/*
+==================================
+RIGHT SIDE
+==================================
+*/
+
+.nav-right{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.icon-btn{
+    width:42px;
+    height:42px;
+    border:none;
+    border-radius:14px;
+    background:white;
+    color:#222;
+    cursor:pointer;
+    font-size:15px;
+    transition:0.3s ease;
+    border:1px solid rgba(0,0,0,0.06);
+}
+
+.icon-btn:hover{
+    background:#111;
+    color:white;
+    transform:translateY(-2px);
+}
+
+.live-btn{
+    border:none;
+    height:42px;
+    padding:0 18px;
+    border-radius:14px;
+    background:#d40000;
+    color:white;
+    font-size:13px;
+    font-weight:700;
+    cursor:pointer;
+
+    display:flex;
+    align-items:center;
+    gap:8px;
+
+    box-shadow:0 10px 20px rgba(212,0,0,0.18);
+    transition:0.3s ease;
+}
+
+.live-dot{
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:white;
+    animation:pulse 1.2s infinite;
+}
+
+@keyframes pulse{
+    0%{
+        opacity:1;
+        transform:scale(1);
+    }
+    100%{
+        opacity:0.3;
+        transform:scale(1.7);
+    }
+}
+
+.live-btn:hover{
+    transform:translateY(-2px);
+}
+
+/*
+==================================
+MENU BUTTON
+==================================
+*/
+
+.menu-btn{
+    display:none;
+    width:42px;
+    height:42px;
+    border:none;
+    border-radius:14px;
+   background:rgb(255, 238, 238);
+    color:red;
+    font-size:16px;
+    cursor:pointer;
+}
+
+/*
+==================================
+HERO SECTION
+==================================
+*/
+
+
+.primary-btn,
+.secondary-btn{
+    padding:14px 24px;
+    border-radius:16px;
+    font-size:14px;
+    font-weight:700;
+    cursor:pointer;
+    transition:0.3s ease;
+    border:none;
+}
+
+.primary-btn{
+    background:#111;
+    color:white;
+}
+
+.secondary-btn{
+    background:white;
+    border:1px solid rgba(0,0,0,0.08);
+}
+
+.primary-btn:hover,
+.secondary-btn:hover{
+    transform:translateY(-2px);
+}
+
+/*
+==================================
+MOBILE MENU
+==================================
+*/
+
+.overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.45);
+    opacity:0;
+    visibility:hidden;
+    transition:0.3s ease;
+    z-index:1001;
+}
+
+.overlay.active{
+    opacity:1;
+    visibility:visible;
+}
+
+.mobile-menu{
+    position:fixed;
+    top:0;
+    right:-100%;
+    width:82%;
+    max-width:320px;
+    height:100vh;
+    background:white;
+    z-index:2000;
+    transition:0.35s ease;
+    padding:26px;
+    box-shadow:-10px 0 30px rgba(0,0,0,0.08);
+    border-top-left-radius:24px;
+}
+
+.mobile-menu.active{
+    right:0;
+}
+
+.mobile-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:35px;
+}
+
+.mobile-top h2{
+    font-size:24px;
+    font-weight:800;
+}
+
+.mobile-top span{
+    color:#d40000;
+}
+
+.close-btn{
+    width:40px;
+    height:40px;
+    border:none;
+    border-radius:12px;
+    background:#f5f5f5;
+    cursor:pointer;
+    font-size:15px;
+}
+
+.mobile-links{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.mobile-links a{
+    text-decoration:none;
+    color:#222;
+    padding:14px 16px;
+    border-radius:16px;
+    font-size:15px;
+    font-weight:600;
+    transition:0.3s ease;
+
+    display:flex;
+    align-items:center;
+    gap:14px;
+}
+
+.mobile-links a:hover{
+    background:#f6f6f6;
+    transform:translateX(4px);
+    color:#d40000;
+}
+
+/*
+==================================
+BOTTOM NAV
+==================================
+*/
+
+.bottom-nav{
+    position:fixed;
+    left:50%;
+    bottom:14px;
+    transform:translateX(-50%);
+    width:92%;
+    background:rgba(255,255,255,0.92);
+    backdrop-filter:blur(18px);
+    border-radius:24px;
+    padding:10px 8px;
+
+    display:none;
+    align-items:center;
+    justify-content:space-around;
+
+    box-shadow:0 10px 30px rgba(0,0,0,0.08);
+    z-index:1000;
+}
+
+.bottom-item{
+    text-decoration:none;
+    color:#777;
+    width:60px;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:4px;
+
+    font-size:10px;
+    font-weight:600;
+
+    padding:8px 0;
+    border-radius:16px;
+    transition:0.3s ease;
+}
+
+.bottom-item i{
+    font-size:18px;
+    color:#d40000;
+}
+
+.bottom-item.active{
+    background:#111;
+    color:white;
+    transform:translateY(-10px);
+}
+
+/*
+==================================
+RESPONSIVE
+==================================
+*/
+
+@media(max-width:1050px){
+
+    .nav-links,
+    .nav-right{
+        display:none;
+    }
+
+    .menu-btn{
+        display:block;
+    }
+
+   
+
+}
+
+@media(max-width:768px){
+
+  
+
+    .bottom-nav{
+        display:flex;
+    }
+
+}
+
+@media(max-width:500px){
+
+    .logo h2{
+        font-size:20px;
+    }
+
+
+    .primary-btn,
+    .secondary-btn{
+        width:100%;
+    }
+
+}
+
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+
+<nav class="navbar">
+
+    <div class="logo">
+
+       
+        <h2>Lucknow<span> Live 24X7</span></h2>
+
+    </div>
+
+    <div class="nav-links">
+        <a href="#">Home</a>
+        <a href="#">Politics</a>
+        <a href="#">Crime</a>
+        <a href="#">Sports</a>
+        <a href="#">Business</a>
+        <a href="#">Tech</a>
+    </div>
+
+    <div class="nav-right">
+
+        <button class="icon-btn">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+
+        <button class="icon-btn">
+            <i class="fa-regular fa-bell"></i>
+        </button>
+
+        <button class="live-btn">
+            <div class="live-dot"></div>
+            LIVE
+        </button>
+
+    </div>
+
+    <button class="menu-btn" id="menuBtn">
+        <i class="fa-solid fa-bars"></i>
+    </button>
+
+</nav>
+
+
+<!-- MOBILE MENU -->
+
+<div class="overlay" id="overlay"></div>
+
+<div class="mobile-menu" id="mobileMenu">
+
+    <div class="mobile-top">
+
+        <h2>Lucknow<span>Live</span></h2>
+
+        <button class="close-btn" id="closeBtn">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+    </div>
+
+    <div class="mobile-links">
+
+        <a href="#">
+            <i class="fa-solid fa-house"></i>
+            Home
+        </a>
+
+        <a href="#">
+            <i class="fa-solid fa-landmark"></i>
+            Politics
+        </a>
+
+        <a href="#">
+            <i class="fa-solid fa-shield-halved"></i>
+            Crime
+        </a>
+
+        <a href="#">
+            <i class="fa-solid fa-football"></i>
+            Sports
+        </a>
+
+        <a href="#">
+            <i class="fa-solid fa-chart-line"></i>
+            Business
+        </a>
+
+        <a href="#">
+            <i class="fa-solid fa-microchip"></i>
+            Technology
+        </a>
+
+        <a href="#">
+            <i class="fa-solid fa-circle-play"></i>
+            Live TV
+        </a>
+
+    </div>
+
+</div>
+
+<!-- MOBILE BOTTOM NAV -->
+
+<div class="bottom-nav">
+
+    <a href="#" class="bottom-item ">
+        <i class="fa-solid fa-house"></i>
+        <span>Home</span>
+    </a>
+
+    <a href="#" class="bottom-item">
+        <i class="fa-solid fa-video"></i>
+        <span>Live</span>
+    </a>
+
+    <a href="#" class="bottom-item">
+        <i class="fa-solid fa-fire"></i>
+        <span>Trending</span>
+    </a>
+
+    <a href="#" class="bottom-item">
+        <i class="fa-regular fa-bookmark"></i>
+        <span>Saved</span>
+    </a>
+
+    <a href="#" class="bottom-item">
+        <i class="fa-regular fa-user"></i>
+        <span>Profile</span>
+    </a>
+
+</div>
+
+<script>
+
+const menuBtn = document.getElementById('menuBtn');
+const closeBtn = document.getElementById('closeBtn');
+const mobileMenu = document.getElementById('mobileMenu');
+const overlay = document.getElementById('overlay');
+
+menuBtn.addEventListener('click', () => {
+    mobileMenu.classList.add('active');
+    overlay.classList.add('active');
+});
+
+closeBtn.addEventListener('click', () => {
+    mobileMenu.classList.remove('active');
+    overlay.classList.remove('active');
+});
+
+overlay.addEventListener('click', () => {
+    mobileMenu.classList.remove('active');
+    overlay.classList.remove('active');
+});
+
+</script>
+
+</body>
+</html>
