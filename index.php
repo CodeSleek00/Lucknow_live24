@@ -28,6 +28,137 @@ while($row = mysqli_fetch_assoc($result)) {
 
 <body>
 
+<nav class="navbar">
+
+    <div class="logo">
+
+       
+        <h2>Lucknow<span> Live 24X7</span></h2>
+
+    </div>
+
+    <div class="nav-links">
+        <a href="#">Home</a>
+        <a href="#">Politics</a>
+        <a href="#">Crime</a>
+        <a href="#">Sports</a>
+        <a href="#">Business</a>
+        <a href="#">Tech</a>
+    </div>
+
+    <div class="nav-right">
+
+        <button class="icon-btn">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+
+        <button class="icon-btn">
+            <i class="fa-regular fa-bell"></i>
+        </button>
+
+        <button class="live-btn">
+            <div class="live-dot"></div>
+            LIVE
+        </button>
+
+    </div>
+
+    <button class="menu-btn" id="menuBtn">
+        <i class="fa-solid fa-bars"></i>
+    </button>
+
+</nav>
+
+
+<!-- MOBILE MENU -->
+
+<div class="overlay" id="overlay"></div>
+
+<div class="mobile-menu" id="mobileMenu">
+
+    <div class="mobile-top">
+
+        <h2>Lucknow<span>Live</span></h2>
+
+        <button class="close-btn" id="closeBtn">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+    </div>
+
+    <div class="mobile-links">
+
+        <a href="#">
+            <i class="fa-solid fa-house"></i>
+            Home
+        </a>
+
+        <a href="#">
+            <i class="fa-solid fa-landmark"></i>
+            Politics
+        </a>
+
+        <a href="#">
+            <i class="fa-solid fa-shield-halved"></i>
+            Crime
+        </a>
+
+        <a href="#">
+            <i class="fa-solid fa-football"></i>
+            Sports
+        </a>
+
+        <a href="#">
+            <i class="fa-solid fa-chart-line"></i>
+            Business
+        </a>
+
+        <a href="#">
+            <i class="fa-solid fa-microchip"></i>
+            Technology
+        </a>
+
+        <a href="#">
+            <i class="fa-solid fa-circle-play"></i>
+            Live TV
+        </a>
+
+    </div>
+
+</div>
+
+<!-- MOBILE BOTTOM NAV -->
+
+<div class="bottom-nav">
+
+    <a href="#" class="bottom-item ">
+        <i class="fa-solid fa-house"></i>
+        <span>Home</span>
+    </a>
+
+    <a href="#" class="bottom-item">
+        <i class="fa-solid fa-video"></i>
+        <span>Live</span>
+    </a>
+
+    <a href="#" class="bottom-item">
+        <i class="fa-solid fa-fire"></i>
+        <span>Trending</span>
+    </a>
+
+    <a href="#" class="bottom-item">
+        <i class="fa-regular fa-bookmark"></i>
+        <span>Saved</span>
+    </a>
+
+    <a href="#" class="bottom-item">
+        <i class="fa-regular fa-user"></i>
+        <span>Profile</span>
+    </a>
+
+</div>
+
+
 <div class="news-wrapper">
 
     <!-- DESKTOP GRID -->
@@ -79,25 +210,8 @@ while($row = mysqli_fetch_assoc($result)) {
     </div>
 
 </div>
+<script src="script.js"></script>
 
-<script>
-let slides = document.querySelectorAll('.mobile-slide');
-let index = 0;
-
-function showSlide(i){
-    slides.forEach(s => s.classList.remove('active'));
-    slides[i].classList.add('active');
-}
-
-if(slides.length > 0){
-    showSlide(index);
-
-    setInterval(() => {
-        index = (index + 1) % slides.length;
-        showSlide(index);
-    }, 8000); // 8 seconds
-}
-</script>
 
 </body>
 </html>
