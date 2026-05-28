@@ -2,21 +2,22 @@
 include 'database_connection/db.php';
 
 ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-$query = "SELECT * FROM news ORDER BY id DESC LIMIT 5";
-$result = mysqli_query($conn, $query);
+/* ================= NEWS ================= */
+$news_query = "SELECT * FROM news ORDER BY id DESC LIMIT 30";
+$news_result = mysqli_query($conn, $news_query);
 
 $news_items = [];
-while($row = mysqli_fetch_assoc($result)) {
+while($row = mysqli_fetch_assoc($news_result)) {
     $news_items[] = $row;
 }
-include 'database_connection/db.php';
 
-$query = "SELECT * FROM reels ORDER BY id DESC LIMIT 5";
-$result = mysqli_query($conn, $query);
+/* ================= REELS ================= */
+$reels_query = "SELECT * FROM reels ORDER BY id DESC LIMIT 5";
+$reels_result = mysqli_query($conn, $reels_query);
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
