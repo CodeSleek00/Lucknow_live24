@@ -15,46 +15,54 @@ while($row = mysqli_fetch_assoc($result)) {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>News Section</title>
+<title>News Carousel</title>
 
 <style>
 body{
     margin:0;
-    font-family: Arial, sans-serif;
+    font-family: Arial;
     background:#f4f4f4;
 }
 
-/* MAIN WRAPPER */
+/* WRAPPER */
 .news-strip-wrapper{
-    width:100%;
     padding:20px;
-    box-sizing:border-box;
 }
 
-/* ===== DESKTOP GRID ===== */
+/* CAROUSEL CONTAINER */
 .news-strip-grid{
     display:flex;
     gap:15px;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch;
+    scroll-behavior:smooth;
 }
 
-/* 3 columns */
+/* hide scrollbar */
+.news-strip-grid::-webkit-scrollbar{
+    display:none;
+}
+
+/* COLUMN */
 .news-column{
-    flex:1;
+    flex:0 0 33.33%;
     display:flex;
     flex-direction:column;
     gap:12px;
+    scroll-snap-align:start;
 }
 
-/* STRIP CARD */
+/* CARD */
 .news-strip-card{
     display:flex;
-    gap:12px;
-    text-decoration:none;
+    gap:10px;
     background:#fff;
     border-radius:12px;
+    text-decoration:none;
     overflow:hidden;
     box-shadow:0 2px 10px rgba(0,0,0,0.08);
-    transition:0.2s ease;
+    transition:0.2s;
 }
 
 .news-strip-card:hover{
@@ -63,7 +71,7 @@ body{
 
 .strip-img{
     width:40%;
-    min-width:110px;
+    min-width:90px;
 }
 
 .strip-img img{
@@ -74,74 +82,26 @@ body{
 }
 
 .strip-content{
-    padding:10px;
+    padding:8px;
     width:60%;
 }
 
 .strip-content h3{
-    font-size:14px;
+    font-size:13px;
     margin:0;
     color:#111;
-    line-height:1.3;
 }
 
 .strip-content p{
-    font-size:12px;
-    color:#555;
-    margin-top:6px;
-}
-
-/* ===== MOBILE CAROUSEL ===== */
-.news-carousel{
-    display:none;
-    overflow-x:auto;
-    gap:12px;
-    scroll-snap-type:x mandatory;
-    -webkit-overflow-scrolling:touch;
-    padding-bottom:10px;
-}
-
-.carousel-card{
-    min-width:80%;
-    flex:0 0 auto;
-    scroll-snap-align:start;
-    background:#fff;
-    border-radius:12px;
-    overflow:hidden;
-    box-shadow:0 2px 12px rgba(0,0,0,0.1);
-    text-decoration:none;
-}
-
-.carousel-card img{
-    width:100%;
-    height:180px;
-    object-fit:cover;
-}
-
-.carousel-content{
-    padding:10px;
-}
-
-.carousel-content h3{
-    font-size:15px;
-    margin:0;
-    color:#111;
-}
-
-.carousel-content p{
-    font-size:12px;
-    color:#555;
+    font-size:11px;
+    color:#666;
     margin-top:5px;
 }
 
-/* ===== RESPONSIVE ===== */
+/* MOBILE ADJUST */
 @media(max-width:768px){
-    .news-strip-grid{
-        display:none;
-    }
-
-    .news-carousel{
-        display:flex;
+    .news-column{
+        flex:0 0 85%;
     }
 }
 </style>
@@ -151,21 +111,19 @@ body{
 
 <div class="news-strip-wrapper">
 
-    <!-- ================= DESKTOP ================= -->
-    <div class="news-strip-grid">
+    <div class="news-strip-grid" id="newsCarousel">
 
         <?php
         $total = count($news_items);
         $perCol = 3;
-        $cols = 3;
+        $cols = ceil($total / $perCol);
 
         for ($col = 0; $col < $cols; $col++):
         ?>
         <div class="news-column">
 
-            <?php
-            for ($row = 0; $row < $perCol; $row++):
-                $i = ($col * $perCol) + $row;
+            <?php for ($row = 0; $row < 3; $row++):
+                $i = ($col * 3) + $row;
                 if ($i >= $total) break;
             ?>
 
@@ -178,9 +136,7 @@ body{
                 <div class="strip-content">
                     <h3><?php echo $news_items[$i]['title']; ?></h3>
                     <p>
-                        <?php 
-                        echo substr(strip_tags($news_items[$i]['content'] ?? 'Latest update available...'), 0, 90) . '...'; 
-                        ?>
+                        <?php echo substr(strip_tags($news_items[$i]['content'] ?? ''), 0, 80) . '...'; ?>
                     </p>
                 </div>
 
@@ -193,30 +149,38 @@ body{
 
     </div>
 
-
-    <!-- ================= MOBILE ================= -->
-    <div class="news-carousel">
-
-        <?php foreach($news_items as $item): ?>
-
-        <a href="news.php?slug=<?php echo $item['slug']; ?>" class="carousel-card">
-
-            <img src="admin/uploads/images/<?php echo $item['image']; ?>">
-
-            <div class="carousel-content">
-                <h3><?php echo $item['title']; ?></h3>
-                <p>
-                    <?php echo substr(strip_tags($item['content'] ?? ''), 0, 80) . '...'; ?>
-                </p>
-            </div>
-
-        </a>
-
-        <?php endforeach; ?>
-
-    </div>
-
 </div>
+
+<script>
+const carousel = document.getElementById("newsCarousel");
+
+let scrollAmount = 0;
+let cardWidth = window.innerWidth * 0.85; // mobile column width approx
+let autoScrollSpeed = 1; // px per frame
+let isHovered = false;
+
+/* AUTO SCROLL */
+function autoScroll(){
+    if(!isHovered){
+        carousel.scrollLeft += autoScrollSpeed;
+
+        // reset loop
+        if(carousel.scrollLeft >= carousel.scrollWidth - carousel.clientWidth){
+            carousel.scrollLeft = 0;
+        }
+    }
+    requestAnimationFrame(autoScroll);
+}
+autoScroll();
+
+/* PAUSE ON TOUCH / MOUSE */
+carousel.addEventListener("mouseenter", () => isHovered = true);
+carousel.addEventListener("mouseleave", () => isHovered = false);
+carousel.addEventListener("touchstart", () => isHovered = true);
+carousel.addEventListener("touchend", () => {
+    setTimeout(()=> isHovered = false, 2000);
+});
+</script>
 
 </body>
 </html>
