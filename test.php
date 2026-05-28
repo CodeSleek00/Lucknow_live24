@@ -124,7 +124,7 @@ $result = mysqli_query($conn, $query);
         <?php while($row = mysqli_fetch_assoc($result)) { ?>
 
         <div class="reel-box">
-            <video src="admin/<?php echo htmlspecialchars($row['video']); ?>" muted playsinline></video>
+            <video src="admin/<?php echo htmlspecialchars($row['video']); ?>"  playsinline></video>
         </div>
 
         <?php } ?>
