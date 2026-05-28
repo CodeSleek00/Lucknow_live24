@@ -17,13 +17,6 @@ include 'database_connection/db.php';
 $query = "SELECT * FROM reels ORDER BY id DESC LIMIT 5";
 $result = mysqli_query($conn, $query);
 
-$query = "SELECT * FROM news ORDER BY id DESC LIMIT 30";
-$result = mysqli_query($conn, $query);
-
-$news_items = [];
-while($row = mysqli_fetch_assoc($result)) {
-    $news_items[] = $row;
-}
 ?>
 
 <!DOCTYPE html>
