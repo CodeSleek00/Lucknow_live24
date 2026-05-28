@@ -1,5 +1,5 @@
 <?php
-include '../database_connection/db.php';
+include 'database_connection/db.php';
 
 $query = "SELECT * FROM reels ORDER BY id DESC";
 $result = mysqli_query($conn, $query);
