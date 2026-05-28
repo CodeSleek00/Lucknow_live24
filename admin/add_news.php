@@ -1,8 +1,10 @@
 <?php
 include '../database_connection/db.php';
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+
 if(isset($_POST['submit'])){
 
     $title = mysqli_real_escape_string($conn, $_POST['title']);
@@ -10,21 +12,54 @@ if(isset($_POST['submit'])){
 
     $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $title)));
 
-    $imageName = $_FILES['image']['name'];
-    $tmpName   = $_FILES['image']['tmp_name'];
+    /* =========================
+       MULTIPLE IMAGES UPLOAD
+    ========================== */
+    $imageFiles = [];
+    if(!empty($_FILES['images']['name'][0])){
 
-    $newName = time() . "_" . $imageName;
+        foreach($_FILES['images']['name'] as $key => $imageName){
 
-    move_uploaded_file($tmpName, "uploads/" . $newName);
+            $tmpName = $_FILES['images']['tmp_name'][$key];
+            $newName = time() . "_" . rand(1000,9999) . "_" . $imageName;
 
-    $query = "INSERT INTO news(title, slug, description, image)
-              VALUES('$title','$slug','$description','$newName')";
+            move_uploaded_file($tmpName, "uploads/images/" . $newName);
+
+            $imageFiles[] = $newName;
+        }
+    }
+
+    /* =========================
+       MULTIPLE VIDEOS UPLOAD
+    ========================== */
+    $videoFiles = [];
+    if(!empty($_FILES['videos']['name'][0])){
+
+        foreach($_FILES['videos']['name'] as $key => $videoName){
+
+            $tmpName = $_FILES['videos']['tmp_name'][$key];
+            $newName = time() . "_" . rand(1000,9999) . "_" . $videoName;
+
+            move_uploaded_file($tmpName, "uploads/videos/" . $newName);
+
+            $videoFiles[] = $newName;
+        }
+    }
+
+    // Convert to JSON for DB storage
+    $imagesJson = json_encode($imageFiles);
+    $videosJson = json_encode($videoFiles);
+
+    /* =========================
+       INSERT QUERY
+    ========================== */
+    $query = "INSERT INTO news(title, slug, description, images, videos)
+              VALUES('$title','$slug','$description','$imagesJson','$videosJson')";
 
     mysqli_query($conn, $query);
 
     header("Location: add_news.php?success=1");
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -62,8 +97,7 @@ h1{
     margin-bottom:25px;
 }
 
-input,
-textarea{
+input, textarea{
     width:100%;
     padding:14px;
     margin-bottom:20px;
@@ -94,6 +128,12 @@ button:hover{
     border-radius:8px;
 }
 
+label{
+    font-weight:bold;
+    display:block;
+    margin-bottom:6px;
+}
+
 </style>
 </head>
 <body>
@@ -112,7 +152,11 @@ button:hover{
 
 <textarea name="description" rows="6" placeholder="News Description"></textarea>
 
-<input type="file" name="image" required>
+<label>Upload Multiple Images</label>
+<input type="file" name="images[]" multiple accept="image/*">
+
+<label>Upload Multiple Videos</label>
+<input type="file" name="videos[]" multiple accept="video/*">
 
 <button type="submit" name="submit">Publish News</button>
 
