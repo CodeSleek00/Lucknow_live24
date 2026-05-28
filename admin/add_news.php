@@ -13,48 +13,57 @@ if(isset($_POST['submit'])){
     $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $title)));
 
     /* =========================
-       MULTIPLE IMAGES UPLOAD
+       MAIN IMAGE (SINGLE IMAGE)
     ========================== */
-    $imageFiles = [];
+    $imageName = "";
+
+    if(!empty($_FILES['image']['name'])){
+        $tmp = $_FILES['image']['tmp_name'];
+        $imageName = time() . "_img_" . $_FILES['image']['name'];
+
+        move_uploaded_file($tmp, "uploads/images/" . $imageName);
+    }
+
+    /* =========================
+       MULTIPLE IMAGES (GALLERY)
+    ========================== */
+    $galleryFiles = [];
+
     if(!empty($_FILES['images']['name'][0])){
+        foreach($_FILES['images']['name'] as $key => $img){
+            $tmp = $_FILES['images']['tmp_name'][$key];
+            $newName = time() . "_g_" . rand(1000,9999) . "_" . $img;
 
-        foreach($_FILES['images']['name'] as $key => $imageName){
-
-            $tmpName = $_FILES['images']['tmp_name'][$key];
-            $newName = time() . "_" . rand(1000,9999) . "_" . $imageName;
-
-            move_uploaded_file($tmpName, "uploads/images/" . $newName);
-
-            $imageFiles[] = $newName;
+            move_uploaded_file($tmp, "uploads/images/" . $newName);
+            $galleryFiles[] = $newName;
         }
     }
 
     /* =========================
-       MULTIPLE VIDEOS UPLOAD
+       MULTIPLE VIDEOS
     ========================== */
     $videoFiles = [];
+
     if(!empty($_FILES['videos']['name'][0])){
+        foreach($_FILES['videos']['name'] as $key => $vid){
+            $tmp = $_FILES['videos']['tmp_name'][$key];
+            $newName = time() . "_v_" . rand(1000,9999) . "_" . $vid;
 
-        foreach($_FILES['videos']['name'] as $key => $videoName){
-
-            $tmpName = $_FILES['videos']['tmp_name'][$key];
-            $newName = time() . "_" . rand(1000,9999) . "_" . $videoName;
-
-            move_uploaded_file($tmpName, "uploads/videos/" . $newName);
-
+            move_uploaded_file($tmp, "uploads/videos/" . $newName);
             $videoFiles[] = $newName;
         }
     }
 
-    // Convert to JSON for DB storage
-    $imagesJson = json_encode($imageFiles);
+    $galleryJson = json_encode($galleryFiles);
     $videosJson = json_encode($videoFiles);
 
     /* =========================
        INSERT QUERY
     ========================== */
-    $query = "INSERT INTO news(title, slug, description, images, videos)
-              VALUES('$title','$slug','$description','$imagesJson','$videosJson')";
+    $query = "INSERT INTO news
+    (title, slug, description, image, images, videos)
+    VALUES
+    ('$title','$slug','$description','$imageName','$galleryJson','$videosJson')";
 
     mysqli_query($conn, $query);
 
@@ -67,11 +76,9 @@ if(isset($_POST['submit'])){
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Add News</title>
 
 <style>
-
 *{
     margin:0;
     padding:0;
@@ -85,7 +92,7 @@ body{
 }
 
 .container{
-    max-width:700px;
+    max-width:750px;
     margin:auto;
     background:#fff;
     padding:30px;
@@ -100,7 +107,7 @@ h1{
 input, textarea{
     width:100%;
     padding:14px;
-    margin-bottom:20px;
+    margin-bottom:15px;
     border:1px solid #ddd;
     border-radius:10px;
     font-size:16px;
@@ -131,9 +138,8 @@ button:hover{
 label{
     font-weight:bold;
     display:block;
-    margin-bottom:6px;
+    margin:10px 0 6px;
 }
-
 </style>
 </head>
 <body>
@@ -152,10 +158,16 @@ label{
 
 <textarea name="description" rows="6" placeholder="News Description"></textarea>
 
-<label>Upload Multiple Images</label>
+<!-- SINGLE IMAGE -->
+<label>Main Image</label>
+<input type="file" name="image" accept="image/*" required>
+
+<!-- GALLERY -->
+<label>Gallery Images (Multiple)</label>
 <input type="file" name="images[]" multiple accept="image/*">
 
-<label>Upload Multiple Videos</label>
+<!-- VIDEOS -->
+<label>Videos (Multiple)</label>
 <input type="file" name="videos[]" multiple accept="video/*">
 
 <button type="submit" name="submit">Publish News</button>
