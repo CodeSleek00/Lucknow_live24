@@ -136,7 +136,7 @@ body{
                 <div class="strip-content">
                     <h3><?php echo $news_items[$i]['title']; ?></h3>
                     <p>
-                        <?php echo substr(strip_tags($news_items[$i]['content'] ?? ''), 0, 80) . '...'; ?>
+                        <?php echo substr(strip_tags($news_items[$i]['description'] ?? ''), 0, 80) . '...'; ?>
                     </p>
                 </div>
 
