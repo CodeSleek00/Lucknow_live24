@@ -239,8 +239,15 @@ $result = mysqli_query($conn, $query);
     </div>
 
 </section>
-
 <div class="strip-wrapper">
+
+    <!-- Header -->
+    <div class="strip-header">
+        <h2>Latest News</h2>
+        <a href="all_news.php" class="view-all-btn">
+            View All →
+        </a>
+    </div>
 
     <div class="strip-grid">
 
