@@ -728,6 +728,35 @@ RESPONSIVE
     color:#666;
     margin-top:5px;
 }
+.strip-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:15px;
+    padding:0 10px;
+}
+
+.strip-header h2{
+    margin:0;
+    font-size:24px;
+    font-weight:700;
+}
+
+.view-all-btn{
+    text-decoration:none;
+    background:linear-gradient(135deg,#ff512f,#dd2476);
+    color:#fff;
+    padding:8px 16px;
+    border-radius:30px;
+    font-size:14px;
+    font-weight:600;
+    transition:0.3s;
+}
+
+.view-all-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 5px 15px rgba(0,0,0,0.2);
+}
 
 @media(max-width:768px){
     .strip-column{
